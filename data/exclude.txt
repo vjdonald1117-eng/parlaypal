@@ -1,0 +1,9 @@
+# ParlayPal — Manual Player Exclude List
+# One player name per line (case-insensitive, matches full_name from DB).
+# Lines starting with # are comments and are ignored.
+# Players listed here are completely skipped during parlay simulations.
+#
+# Usage examples:
+#  Lauri Markkanen
+#  Keyonte George
+#

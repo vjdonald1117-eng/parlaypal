@@ -1,0 +1,140 @@
+{
+  "fetched_at": "2026-04-05T16:41:30.623891+00:00",
+  "stat": "stl",
+  "entries": {
+    "scottie barnes": {
+      "player_name": "Scottie Barnes",
+      "line": 1.5,
+      "over_odds": 110,
+      "under_odds": -146,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "jayson tatum": {
+      "player_name": "Jayson Tatum",
+      "line": 1.5,
+      "over_odds": 140,
+      "under_odds": -187,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "lamelo ball": {
+      "player_name": "LaMelo Ball",
+      "line": 1.5,
+      "over_odds": 161,
+      "under_odds": -217,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8bce3373da945128589ce3cabae25443",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "donte divincenzo": {
+      "player_name": "Donte DiVincenzo",
+      "line": 1.5,
+      "over_odds": 169,
+      "under_odds": -227,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8bce3373da945128589ce3cabae25443",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "ayo dosunmu": {
+      "player_name": "Ayo Dosunmu",
+      "line": 1.5,
+      "over_odds": 175,
+      "under_odds": -236,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8bce3373da945128589ce3cabae25443",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "anthony edwards": {
+      "player_name": "Anthony Edwards",
+      "line": 1.5,
+      "over_odds": 162,
+      "under_odds": -220,
+      "bookmaker": "FD",
+      "bookmaker_key": "fanduel",
+      "event_id": "8bce3373da945128589ce3cabae25443",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "jalen suggs": {
+      "player_name": "Jalen Suggs",
+      "line": 1.5,
+      "over_odds": -135,
+      "under_odds": 101,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "herb jones": {
+      "player_name": "Herb Jones",
+      "line": 1.5,
+      "over_odds": 116,
+      "under_odds": -154,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "dejounte murray": {
+      "player_name": "Dejounte Murray",
+      "line": 1.5,
+      "over_odds": 124,
+      "under_odds": -165,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "trey murphy iii": {
+      "player_name": "Trey Murphy III",
+      "line": 1.5,
+      "over_odds": 124,
+      "under_odds": -165,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "cason wallace": {
+      "player_name": "Cason Wallace",
+      "line": 1.5,
+      "over_odds": -124,
+      "under_odds": -107,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "shai gilgeous-alexander": {
+      "player_name": "Shai Gilgeous-Alexander",
+      "line": 1.5,
+      "over_odds": 104,
+      "under_odds": -139,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    },
+    "jalen williams": {
+      "player_name": "Jalen Williams",
+      "line": 1.5,
+      "over_odds": 138,
+      "under_odds": -186,
+      "bookmaker": "FD",
+      "bookmaker_key": "fanduel",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.735139+00:00"
+    }
+  },
+  "target_dates": [
+    "2026-04-05",
+    "2026-04-06"
+  ]
+}

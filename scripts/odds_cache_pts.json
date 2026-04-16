@@ -1,0 +1,820 @@
+{
+  "fetched_at": "2026-04-05T16:41:30.426528+00:00",
+  "stat": "pts",
+  "entries": {
+    "jaylen brown": {
+      "player_name": "Jaylen Brown",
+      "line": 27.5,
+      "over_odds": -107,
+      "under_odds": -119,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jayson tatum": {
+      "player_name": "Jayson Tatum",
+      "line": 22.5,
+      "over_odds": -122,
+      "under_odds": -104,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "brandon ingram": {
+      "player_name": "Brandon Ingram",
+      "line": 20.5,
+      "over_odds": -105,
+      "under_odds": -121,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "r.j. barrett": {
+      "player_name": "R.J. Barrett",
+      "line": 19.5,
+      "over_odds": -114,
+      "under_odds": -111,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "scottie barnes": {
+      "player_name": "Scottie Barnes",
+      "line": 16.5,
+      "over_odds": -110,
+      "under_odds": -116,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "derrick white": {
+      "player_name": "Derrick White",
+      "line": 15.5,
+      "over_odds": -111,
+      "under_odds": -114,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "payton pritchard": {
+      "player_name": "Payton Pritchard",
+      "line": 15.5,
+      "over_odds": -111,
+      "under_odds": -115,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "neemias queta": {
+      "player_name": "Neemias Queta",
+      "line": 10.5,
+      "over_odds": 100,
+      "under_odds": -128,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jakob poeltl": {
+      "player_name": "Jakob Poeltl",
+      "line": 9.5,
+      "over_odds": -121,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "sandro mamukelashvili": {
+      "player_name": "Sandro Mamukelashvili",
+      "line": 9.5,
+      "over_odds": -114,
+      "under_odds": -112,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "ja'kobe walter": {
+      "player_name": "Ja'Kobe Walter",
+      "line": 8.5,
+      "over_odds": -124,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "sam hauser": {
+      "player_name": "Sam Hauser",
+      "line": 7.5,
+      "over_odds": -125,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jamal shead": {
+      "player_name": "Jamal Shead",
+      "line": 7.5,
+      "over_odds": 104,
+      "under_odds": -132,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "6f1339b3519de542ab74c59857bfeff1",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "will riley": {
+      "player_name": "Will Riley",
+      "line": 17.5,
+      "over_odds": -115,
+      "under_odds": -111,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "josh minott": {
+      "player_name": "Josh Minott",
+      "line": 13.5,
+      "over_odds": -120,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "nolan traore": {
+      "player_name": "Nolan Traore",
+      "line": 13.5,
+      "over_odds": -115,
+      "under_odds": -111,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "tre johnson": {
+      "player_name": "Tre Johnson",
+      "line": 12.5,
+      "over_odds": -105,
+      "under_odds": -121,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "noah clowney": {
+      "player_name": "Noah Clowney",
+      "line": 11.5,
+      "over_odds": -126,
+      "under_odds": -101,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "bilal coulibaly": {
+      "player_name": "Bilal Coulibaly",
+      "line": 11.5,
+      "over_odds": -123,
+      "under_odds": -104,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "drake powell": {
+      "player_name": "Drake Powell",
+      "line": 11.5,
+      "over_odds": -104,
+      "under_odds": -123,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "carlton carrington": {
+      "player_name": "Carlton Carrington",
+      "line": 10.5,
+      "over_odds": -120,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "terance mann": {
+      "player_name": "Terance Mann",
+      "line": 8.5,
+      "over_odds": -101,
+      "under_odds": -127,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "c1b3d187f022b0870bfa7128e1d02ae5",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "devin booker": {
+      "player_name": "Devin Booker",
+      "line": 27.5,
+      "over_odds": -104,
+      "under_odds": -123,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jalen green": {
+      "player_name": "Jalen Green",
+      "line": 19.5,
+      "over_odds": -119,
+      "under_odds": -107,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "matas buzelis": {
+      "player_name": "Matas Buzelis",
+      "line": 17.5,
+      "over_odds": -122,
+      "under_odds": -105,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "dillon brooks": {
+      "player_name": "Dillon Brooks",
+      "line": 16.5,
+      "over_odds": -119,
+      "under_odds": -107,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "josh giddey": {
+      "player_name": "Josh Giddey",
+      "line": 16.5,
+      "over_odds": -112,
+      "under_odds": -114,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "tre jones": {
+      "player_name": "Tre Jones",
+      "line": 15.5,
+      "over_odds": -112,
+      "under_odds": -114,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "grayson allen": {
+      "player_name": "Grayson Allen",
+      "line": 13.5,
+      "over_odds": -127,
+      "under_odds": 100,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "collin gillespie": {
+      "player_name": "Collin Gillespie",
+      "line": 10.5,
+      "over_odds": -117,
+      "under_odds": -109,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "isaac okoro": {
+      "player_name": "Isaac Okoro",
+      "line": 9.5,
+      "over_odds": -125,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "mark williams": {
+      "player_name": "Mark Williams",
+      "line": 8.5,
+      "over_odds": -124,
+      "under_odds": -103,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "royce o'neale": {
+      "player_name": "Royce O'Neale",
+      "line": 7.5,
+      "over_odds": -112,
+      "under_odds": -114,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "oso ighodaro": {
+      "player_name": "Oso Ighodaro",
+      "line": 6.5,
+      "over_odds": -122,
+      "under_odds": -105,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "8071f80d106d512c88016b240e766d84",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "ryan rollins": {
+      "player_name": "Ryan Rollins",
+      "line": 22.5,
+      "over_odds": -104,
+      "under_odds": -122,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "olivier-maxence prosper": {
+      "player_name": "Olivier-Maxence Prosper",
+      "line": 15.5,
+      "over_odds": -126,
+      "under_odds": -101,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "ousmane dieng": {
+      "player_name": "Ousmane Dieng",
+      "line": 15.5,
+      "over_odds": 100,
+      "under_odds": -127,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "kyle kuzma": {
+      "player_name": "Kyle Kuzma",
+      "line": 14.5,
+      "over_odds": -121,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "walter clayton jr.": {
+      "player_name": "Walter Clayton Jr.",
+      "line": 12.5,
+      "over_odds": -114,
+      "under_odds": -112,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "myles turner": {
+      "player_name": "Myles Turner",
+      "line": 12.5,
+      "over_odds": -104,
+      "under_odds": -123,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "taylor hendricks": {
+      "player_name": "Taylor Hendricks",
+      "line": 12.5,
+      "over_odds": -101,
+      "under_odds": -127,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "taurean prince": {
+      "player_name": "Taurean Prince",
+      "line": 9.5,
+      "over_odds": -121,
+      "under_odds": -105,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5ce196844b4f956a3c6961eec5bc859b",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "donovan mitchell": {
+      "player_name": "Donovan Mitchell",
+      "line": 28.5,
+      "over_odds": -104,
+      "under_odds": -123,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "james harden": {
+      "player_name": "James Harden",
+      "line": 21.5,
+      "over_odds": -111,
+      "under_odds": -115,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jarace walker": {
+      "player_name": "Jarace Walker",
+      "line": 15.5,
+      "over_odds": -119,
+      "under_odds": -107,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "quenton jackson": {
+      "player_name": "Quenton Jackson",
+      "line": 13.5,
+      "over_odds": -113,
+      "under_odds": -113,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "thomas bryant": {
+      "player_name": "Thomas Bryant",
+      "line": 12.5,
+      "over_odds": -123,
+      "under_odds": -103,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "max strus": {
+      "player_name": "Max Strus",
+      "line": 12.5,
+      "over_odds": -112,
+      "under_odds": -113,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "kobe brown": {
+      "player_name": "Kobe Brown",
+      "line": 12.5,
+      "over_odds": -111,
+      "under_odds": -115,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jay huff": {
+      "player_name": "Jay Huff",
+      "line": 10.5,
+      "over_odds": -110,
+      "under_odds": -116,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "obi toppin": {
+      "player_name": "Obi Toppin",
+      "line": 10.5,
+      "over_odds": -106,
+      "under_odds": -121,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "nae'qwan tomlin": {
+      "player_name": "Nae'Qwan Tomlin",
+      "line": 9.5,
+      "over_odds": -103,
+      "under_odds": -124,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "keon ellis": {
+      "player_name": "Keon Ellis",
+      "line": 9.5,
+      "over_odds": 100,
+      "under_odds": -128,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "dennis schroder": {
+      "player_name": "Dennis Schroder",
+      "line": 9.5,
+      "over_odds": 102,
+      "under_odds": -130,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "4f3d29a0317850ac56b0c6db31223705",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "paolo banchero": {
+      "player_name": "Paolo Banchero",
+      "line": 22.5,
+      "over_odds": -125,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "zion williamson": {
+      "player_name": "Zion Williamson",
+      "line": 21.5,
+      "over_odds": -118,
+      "under_odds": -108,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "desmond bane": {
+      "player_name": "Desmond Bane",
+      "line": 21.5,
+      "over_odds": -110,
+      "under_odds": -115,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "trey murphy iii": {
+      "player_name": "Trey Murphy III",
+      "line": 20.5,
+      "over_odds": -120,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "saddiq bey": {
+      "player_name": "Saddiq Bey",
+      "line": 19.5,
+      "over_odds": -103,
+      "under_odds": -124,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "dejounte murray": {
+      "player_name": "Dejounte Murray",
+      "line": 17.5,
+      "over_odds": -105,
+      "under_odds": -122,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jalen suggs": {
+      "player_name": "Jalen Suggs",
+      "line": 14.5,
+      "over_odds": -114,
+      "under_odds": -111,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "franz wagner": {
+      "player_name": "Franz Wagner",
+      "line": 14.5,
+      "over_odds": -106,
+      "under_odds": -120,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "wendell carter jr": {
+      "player_name": "Wendell Carter Jr",
+      "line": 12.5,
+      "over_odds": -106,
+      "under_odds": -121,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "tristan da silva": {
+      "player_name": "Tristan da Silva",
+      "line": 9.5,
+      "over_odds": -122,
+      "under_odds": -105,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "herb jones": {
+      "player_name": "Herb Jones",
+      "line": 9.5,
+      "over_odds": 102,
+      "under_odds": -130,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jevon carter": {
+      "player_name": "Jevon Carter",
+      "line": 6.5,
+      "over_odds": -109,
+      "under_odds": -117,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "9f54cd277a7d7a9fe0de35d568dfa4af",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "shai gilgeous-alexander": {
+      "player_name": "Shai Gilgeous-Alexander",
+      "line": 29.5,
+      "over_odds": -126,
+      "under_odds": -101,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "brice sensabaugh": {
+      "player_name": "Brice Sensabaugh",
+      "line": 20.5,
+      "over_odds": -115,
+      "under_odds": -110,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "ace bailey": {
+      "player_name": "Ace Bailey",
+      "line": 17.5,
+      "over_odds": -125,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jalen williams": {
+      "player_name": "Jalen Williams",
+      "line": 15.5,
+      "over_odds": -116,
+      "under_odds": -110,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "cody williams": {
+      "player_name": "Cody Williams",
+      "line": 14.5,
+      "over_odds": -125,
+      "under_odds": -102,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "kyle filipowski": {
+      "player_name": "Kyle Filipowski",
+      "line": 14.5,
+      "over_odds": -122,
+      "under_odds": -104,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "chet holmgren": {
+      "player_name": "Chet Holmgren",
+      "line": 14.5,
+      "over_odds": -102,
+      "under_odds": -125,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "ajay mitchell": {
+      "player_name": "Ajay Mitchell",
+      "line": 11.5,
+      "over_odds": -120,
+      "under_odds": -106,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "jared mccain": {
+      "player_name": "Jared McCain",
+      "line": 8.5,
+      "over_odds": -119,
+      "under_odds": -107,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "isaiah joe": {
+      "player_name": "Isaiah Joe",
+      "line": 8.5,
+      "over_odds": -108,
+      "under_odds": -118,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "isaiah hartenstein": {
+      "player_name": "Isaiah Hartenstein",
+      "line": 7.5,
+      "over_odds": -131,
+      "under_odds": 103,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "john konchar": {
+      "player_name": "John Konchar",
+      "line": 6.5,
+      "over_odds": -133,
+      "under_odds": 104,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "cason wallace": {
+      "player_name": "Cason Wallace",
+      "line": 6.5,
+      "over_odds": -123,
+      "under_odds": -103,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "luguentz dort": {
+      "player_name": "Luguentz Dort",
+      "line": 6.5,
+      "over_odds": -111,
+      "under_odds": -115,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    },
+    "alex caruso": {
+      "player_name": "Alex Caruso",
+      "line": 4.5,
+      "over_odds": -117,
+      "under_odds": -109,
+      "bookmaker": "DK",
+      "bookmaker_key": "draftkings",
+      "event_id": "5441d9423f924c9a489ca00a7e321466",
+      "fetched_at": "2026-04-05T16:41:12.732684+00:00"
+    }
+  },
+  "target_dates": [
+    "2026-04-05",
+    "2026-04-06"
+  ]
+}

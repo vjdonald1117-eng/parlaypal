@@ -1,0 +1,1210 @@
+{
+  "generated_at": "2026-04-08T20:28:30.370581Z",
+  "game_date": "2026-04-08",
+  "games": [
+    {
+      "game_id": 22501158,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612739,
+      "away_team_id": 1610612737,
+      "home_abbr": "CLE",
+      "away_abbr": "ATL",
+      "home_days_rest": 2.0,
+      "away_days_rest": 2.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 89.30965256388852,
+      "away_pace": 98.0067248267268,
+      "home_ortg": 89.924498001998,
+      "away_ortg": 94.2174029304029,
+      "home_drtg": 89.0304953379953,
+      "away_drtg": 88.3248021978022,
+      "home_starters": [
+        {
+          "player_id": 201935,
+          "name": "James Harden",
+          "usage_rate": 0.2717861699590409,
+          "true_shooting_pct": 0.6191254589997903,
+          "assist_rate": 0.34203023457453086,
+          "turnover_rate": 0.11041422343002766,
+          "offensive_rebound_pct": 0.01697907692307698,
+          "defensive_rebound_pct": 0.12151076923076892,
+          "modifiers": {
+            "matchup_multiplier": 1.0204101267116568,
+            "xgb_multiplier": 0.9841761865923482,
+            "combined_multiplier": 1.012304543819147
+          }
+        },
+        {
+          "player_id": 1628378,
+          "name": "Donovan Mitchell",
+          "usage_rate": 0.2970391739504087,
+          "true_shooting_pct": 0.5771541966162401,
+          "assist_rate": 0.259220456867771,
+          "turnover_rate": 0.08609261180012097,
+          "offensive_rebound_pct": 0.019623582089552286,
+          "defensive_rebound_pct": 0.10502492537313467,
+          "modifiers": {
+            "matchup_multiplier": 1.0204101267116568,
+            "xgb_multiplier": 0.9067863140833102,
+            "combined_multiplier": 0.9716888926848941
+          }
+        },
+        {
+          "player_id": 1630596,
+          "name": "Evan Mobley",
+          "usage_rate": 0.2135916321984074,
+          "true_shooting_pct": 0.5882708874031666,
+          "assist_rate": 0.16230945995161028,
+          "turnover_rate": 0.08895450646697321,
+          "offensive_rebound_pct": 0.07048199999999999,
+          "defensive_rebound_pct": 0.19471116666666632,
+          "modifiers": {
+            "matchup_multiplier": 1.0204101267116568,
+            "xgb_multiplier": 0.9495108318066138,
+            "combined_multiplier": 0.994316672606626
+          }
+        },
+        {
+          "player_id": 1629636,
+          "name": "Darius Garland",
+          "usage_rate": 0.2624142268785987,
+          "true_shooting_pct": 0.5972154397109801,
+          "assist_rate": 0.3283496108001217,
+          "turnover_rate": 0.11448373870949209,
+          "offensive_rebound_pct": 0.015759000000000002,
+          "defensive_rebound_pct": 0.06607924999999999,
+          "modifiers": {
+            "matchup_multiplier": 1.0204101267116568,
+            "xgb_multiplier": 0.9845309344657719,
+            "combined_multiplier": 1.012486970773892
+          }
+        },
+        {
+          "player_id": 1628386,
+          "name": "Jarrett Allen",
+          "usage_rate": 0.19197910706311833,
+          "true_shooting_pct": 0.6639751556337165,
+          "assist_rate": 0.09693175422005718,
+          "turnover_rate": 0.09887418940130537,
+          "offensive_rebound_pct": 0.10092115384615385,
+          "defensive_rebound_pct": 0.20172807692307668,
+          "modifiers": {
+            "matchup_multiplier": 1.0204101267116568,
+            "xgb_multiplier": 0.9683286215871426,
+            "combined_multiplier": 1.0041212183496657
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1630552,
+          "name": "Jalen Johnson",
+          "usage_rate": 0.2609162660586084,
+          "true_shooting_pct": 0.5599435722110583,
+          "assist_rate": 0.32224621757976146,
+          "turnover_rate": 0.1102198407304609,
+          "offensive_rebound_pct": 0.03612626865671643,
+          "defensive_rebound_pct": 0.24900268656716437,
+          "modifiers": {
+            "matchup_multiplier": 0.9691031418825942,
+            "xgb_multiplier": 0.9754716036525158,
+            "combined_multiplier": 0.9571440794504776
+          }
+        },
+        {
+          "player_id": 1629638,
+          "name": "Nickeil Alexander-Walker",
+          "usage_rate": 0.22860265246389744,
+          "true_shooting_pct": 0.5655385234851416,
+          "assist_rate": 0.15984000382167998,
+          "turnover_rate": 0.09134224926935354,
+          "offensive_rebound_pct": 0.020130833333333324,
+          "defensive_rebound_pct": 0.08251138888888884,
+          "modifiers": {
+            "matchup_multiplier": 0.9691031418825942,
+            "xgb_multiplier": 0.9533363001595008,
+            "combined_multiplier": 0.9462220549562002
+          }
+        },
+        {
+          "player_id": 1630700,
+          "name": "Dyson Daniels",
+          "usage_rate": 0.1606608997657575,
+          "true_shooting_pct": 0.5350958276921112,
+          "assist_rate": 0.23076874931070623,
+          "turnover_rate": 0.10254225341764746,
+          "offensive_rebound_pct": 0.06949114285714283,
+          "defensive_rebound_pct": 0.13046314285714328,
+          "modifiers": {
+            "matchup_multiplier": 0.9691031418825942,
+            "xgb_multiplier": 1.0722506118718793,
+            "combined_multiplier": 1.003501793346402
+          }
+        },
+        {
+          "player_id": 1630168,
+          "name": "Onyeka Okongwu",
+          "usage_rate": 0.19318675569498622,
+          "true_shooting_pct": 0.5678093903225745,
+          "assist_rate": 0.1434842258802109,
+          "turnover_rate": 0.09640373483366065,
+          "offensive_rebound_pct": 0.061050000000000014,
+          "defensive_rebound_pct": 0.18102764705882346,
+          "modifiers": {
+            "matchup_multiplier": 0.9691031418825942,
+            "xgb_multiplier": 0.9842276352548284,
+            "combined_multiplier": 0.9614302425780639
+          }
+        },
+        {
+          "player_id": 203468,
+          "name": "CJ McCollum",
+          "usage_rate": 0.24354281164522323,
+          "true_shooting_pct": 0.5189488145195563,
+          "assist_rate": 0.188650082065245,
+          "turnover_rate": 0.07964708165028703,
+          "offensive_rebound_pct": 0.024908695652173952,
+          "defensive_rebound_pct": 0.07528159420289858,
+          "modifiers": {
+            "matchup_multiplier": 0.9691031418825942,
+            "xgb_multiplier": 0.9561926173412892,
+            "combined_multiplier": 0.9476384957881064
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501159,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612753,
+      "away_team_id": 1610612750,
+      "home_abbr": "ORL",
+      "away_abbr": "MIN",
+      "home_days_rest": 2.0,
+      "away_days_rest": 1.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 107.37814791760633,
+      "away_pace": 94.92247184012805,
+      "home_ortg": 94.6383974358974,
+      "away_ortg": 88.4351190476191,
+      "home_drtg": 104.426474358974,
+      "away_drtg": 83.5087252747253,
+      "home_starters": [
+        {
+          "player_id": 1631094,
+          "name": "Paolo Banchero",
+          "usage_rate": 0.2768724747756679,
+          "true_shooting_pct": 0.5868620548424006,
+          "assist_rate": 0.23370294868520997,
+          "turnover_rate": 0.10964484054397225,
+          "offensive_rebound_pct": 0.0313238709677419,
+          "defensive_rebound_pct": 0.20906999999999998,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 1.0543577178568204,
+            "combined_multiplier": 1.0607383651165774
+          }
+        },
+        {
+          "player_id": 1630217,
+          "name": "Desmond Bane",
+          "usage_rate": 0.22322763478950705,
+          "true_shooting_pct": 0.6110224599230669,
+          "assist_rate": 0.191351805651606,
+          "turnover_rate": 0.08859354950144743,
+          "offensive_rebound_pct": 0.032582535211267624,
+          "defensive_rebound_pct": 0.08654704225352111,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9569757432767557,
+            "combined_multiplier": 1.010566159345379
+          }
+        },
+        {
+          "player_id": 1630532,
+          "name": "Franz Wagner",
+          "usage_rate": 0.24578131607635267,
+          "true_shooting_pct": 0.5898114329705861,
+          "assist_rate": 0.18024866321642197,
+          "turnover_rate": 0.06450952118396759,
+          "offensive_rebound_pct": 0.03464357142857141,
+          "defensive_rebound_pct": 0.14244607142857113,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.924344437697838,
+            "combined_multiplier": 0.9931874021636041
+          }
+        },
+        {
+          "player_id": 1641710,
+          "name": "Anthony Black",
+          "usage_rate": 0.2183414368013766,
+          "true_shooting_pct": 0.5508443848655207,
+          "assist_rate": 0.1847876893945847,
+          "turnover_rate": 0.11030648469096645,
+          "offensive_rebound_pct": 0.024309999999999967,
+          "defensive_rebound_pct": 0.09568814814814822,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.98832486823327,
+            "combined_multiplier": 1.0269851119575382
+          }
+        },
+        {
+          "player_id": 1628976,
+          "name": "Wendell Carter Jr.",
+          "usage_rate": 0.15696544349290772,
+          "true_shooting_pct": 0.6326954768766292,
+          "assist_rate": 0.09647233059653183,
+          "turnover_rate": 0.10468891460203449,
+          "offensive_rebound_pct": 0.07327253731343285,
+          "defensive_rebound_pct": 0.18122716417910498,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9859223961078504,
+            "combined_multiplier": 1.025736127730882
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1630162,
+          "name": "Anthony Edwards",
+          "usage_rate": 0.30180514682500703,
+          "true_shooting_pct": 0.5702226150236532,
+          "assist_rate": 0.17636224511503876,
+          "turnover_rate": 0.09888492992637714,
+          "offensive_rebound_pct": 0.017269655172413773,
+          "defensive_rebound_pct": 0.12001586206896597,
+          "modifiers": {
+            "matchup_multiplier": 0.9477229876275615,
+            "xgb_multiplier": 0.9599375340610884,
+            "combined_multiplier": 0.9285448838051515
+          }
+        },
+        {
+          "player_id": 203944,
+          "name": "Julius Randle",
+          "usage_rate": 0.25347286548241005,
+          "true_shooting_pct": 0.543623543573425,
+          "assist_rate": 0.22937088631035304,
+          "turnover_rate": 0.10234387430855506,
+          "offensive_rebound_pct": 0.054073783783783774,
+          "defensive_rebound_pct": 0.14986216216216178,
+          "modifiers": {
+            "matchup_multiplier": 0.9477229876275615,
+            "xgb_multiplier": 0.9714669987142238,
+            "combined_multiplier": 0.9341044495526274
+          }
+        },
+        {
+          "player_id": 1630183,
+          "name": "Jaden McDaniels",
+          "usage_rate": 0.17943322782052037,
+          "true_shooting_pct": 0.5812153033310393,
+          "assist_rate": 0.12140337506970142,
+          "turnover_rate": 0.11397942749326576,
+          "offensive_rebound_pct": 0.0341167164179105,
+          "defensive_rebound_pct": 0.09503044776119406,
+          "modifiers": {
+            "matchup_multiplier": 0.9477229876275615,
+            "xgb_multiplier": 1.0224426418331498,
+            "combined_multiplier": 0.9582986840038303
+          }
+        },
+        {
+          "player_id": 203497,
+          "name": "Rudy Gobert",
+          "usage_rate": 0.12915138827065395,
+          "true_shooting_pct": 0.6422313549733122,
+          "assist_rate": 0.07549825584844874,
+          "turnover_rate": 0.12653703593833468,
+          "offensive_rebound_pct": 0.12196901408450665,
+          "defensive_rebound_pct": 0.22431957746478898,
+          "modifiers": {
+            "matchup_multiplier": 0.9477229876275615,
+            "xgb_multiplier": 1.065287588791526,
+            "combined_multiplier": 0.9781711473121927
+          }
+        },
+        {
+          "player_id": 1628978,
+          "name": "Donte DiVincenzo",
+          "usage_rate": 0.16631866640455362,
+          "true_shooting_pct": 0.5479002543032805,
+          "assist_rate": 0.16491195020185856,
+          "turnover_rate": 0.0938334649240817,
+          "offensive_rebound_pct": 0.026712972972972985,
+          "defensive_rebound_pct": 0.10422108108108089,
+          "modifiers": {
+            "matchup_multiplier": 0.9477229876275615,
+            "xgb_multiplier": 1.0460908781728973,
+            "combined_multiplier": 0.9693176536875483
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501160,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612765,
+      "away_team_id": 1610612749,
+      "home_abbr": "DET",
+      "away_abbr": "MIL",
+      "home_days_rest": 2.0,
+      "away_days_rest": 1.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 106.5274006117714,
+      "away_pace": 100.09044459676753,
+      "home_ortg": 101.256153846154,
+      "away_ortg": 90.5067657342657,
+      "home_drtg": 92.7721794871795,
+      "away_drtg": 101.851377622378,
+      "home_starters": [
+        {
+          "player_id": 1630595,
+          "name": "Cade Cunningham",
+          "usage_rate": 0.2882428798044257,
+          "true_shooting_pct": 0.5588625044621721,
+          "assist_rate": 0.4143231589035504,
+          "turnover_rate": 0.10786826730433485,
+          "offensive_rebound_pct": 0.024854000000000036,
+          "defensive_rebound_pct": 0.13705699999999998,
+          "modifiers": {
+            "matchup_multiplier": 1.0006805368423217,
+            "xgb_multiplier": 0.9257408080062245,
+            "combined_multiplier": 0.962809035166116
+          }
+        },
+        {
+          "player_id": 1631105,
+          "name": "Jalen Duren",
+          "usage_rate": 0.22902133849437256,
+          "true_shooting_pct": 0.6585069825531411,
+          "assist_rate": 0.09694638863599268,
+          "turnover_rate": 0.10527717916059894,
+          "offensive_rebound_pct": 0.1280963076923073,
+          "defensive_rebound_pct": 0.2371169230769233,
+          "modifiers": {
+            "matchup_multiplier": 1.0006805368423217,
+            "xgb_multiplier": 0.945901962061073,
+            "combined_multiplier": 0.973236786401868
+          }
+        },
+        {
+          "player_id": 202699,
+          "name": "Tobias Harris",
+          "usage_rate": 0.17833536406212325,
+          "true_shooting_pct": 0.5683573305946704,
+          "assist_rate": 0.12076274630548861,
+          "turnover_rate": 0.06856547811829855,
+          "offensive_rebound_pct": 0.027768620689655188,
+          "defensive_rebound_pct": 0.14240999999999998,
+          "modifiers": {
+            "matchup_multiplier": 1.0006805368423217,
+            "xgb_multiplier": 0.9679641822844705,
+            "combined_multiplier": 0.9845212548006712
+          }
+        },
+        {
+          "player_id": 1629130,
+          "name": "Duncan Robinson",
+          "usage_rate": 0.1517807380228688,
+          "true_shooting_pct": 0.6149164918390995,
+          "assist_rate": 0.09420899973026808,
+          "turnover_rate": 0.0537008395629385,
+          "offensive_rebound_pct": 0.015030833333333321,
+          "defensive_rebound_pct": 0.08439111111111117,
+          "modifiers": {
+            "matchup_multiplier": 1.0006805368423217,
+            "xgb_multiplier": 0.9956241036126007,
+            "combined_multiplier": 0.9984886992267903
+          }
+        },
+        {
+          "player_id": 1641709,
+          "name": "Ausar Thompson",
+          "usage_rate": 0.17462290861800353,
+          "true_shooting_pct": 0.5661818128446873,
+          "assist_rate": 0.15232774213134204,
+          "turnover_rate": 0.11330307664652793,
+          "offensive_rebound_pct": 0.08464454545454547,
+          "defensive_rebound_pct": 0.14039000000000001,
+          "modifiers": {
+            "matchup_multiplier": 1.0006805368423217,
+            "xgb_multiplier": 1.0521141587339375,
+            "combined_multiplier": 1.026424206112987
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1629645,
+          "name": "Kevin Porter Jr.",
+          "usage_rate": 0.23462952457805358,
+          "true_shooting_pct": 0.5611011715148473,
+          "assist_rate": 0.3407747308976905,
+          "turnover_rate": 0.11263124942891911,
+          "offensive_rebound_pct": 0.028305,
+          "defensive_rebound_pct": 0.12080722222222211,
+          "modifiers": {
+            "matchup_multiplier": 1.02648022980065,
+            "xgb_multiplier": 0.9995478494715729,
+            "combined_multiplier": 1.0262481417738405
+          }
+        },
+        {
+          "player_id": 1631157,
+          "name": "Ryan Rollins",
+          "usage_rate": 0.23606312071640273,
+          "true_shooting_pct": 0.5856780603747203,
+          "assist_rate": 0.2699479136560073,
+          "turnover_rate": 0.1190016058350274,
+          "offensive_rebound_pct": 0.021922608695652167,
+          "defensive_rebound_pct": 0.11717463768115922,
+          "modifiers": {
+            "matchup_multiplier": 1.02648022980065,
+            "xgb_multiplier": 0.9742090683949144,
+            "combined_multiplier": 1.0131568221690197
+          }
+        },
+        {
+          "player_id": 203507,
+          "name": "Giannis Antetokounmpo",
+          "usage_rate": 0.35822138082985794,
+          "true_shooting_pct": 0.6644875064908468,
+          "assist_rate": 0.3436000111237298,
+          "turnover_rate": 0.10814160968167817,
+          "offensive_rebound_pct": 0.10247999999999989,
+          "defensive_rebound_pct": 0.24213264705882345,
+          "modifiers": {
+            "matchup_multiplier": 1.02648022980065,
+            "xgb_multiplier": 0.9439315519184646,
+            "combined_multiplier": 0.9972885680537116
+          }
+        },
+        {
+          "player_id": 1631260,
+          "name": "AJ Green",
+          "usage_rate": 0.13414104725057643,
+          "true_shooting_pct": 0.6163969828956792,
+          "assist_rate": 0.09223270325441425,
+          "turnover_rate": 0.084298261058489,
+          "offensive_rebound_pct": 0.010782857142857172,
+          "defensive_rebound_pct": 0.08065571428571422,
+          "modifiers": {
+            "matchup_multiplier": 1.02648022980065,
+            "xgb_multiplier": 1.0637334178434341,
+            "combined_multiplier": 1.0586855629280985
+          }
+        },
+        {
+          "player_id": 1626167,
+          "name": "Myles Turner",
+          "usage_rate": 0.17681597005774952,
+          "true_shooting_pct": 0.5695924316873835,
+          "assist_rate": 0.07602336530141404,
+          "turnover_rate": 0.0937781867754927,
+          "offensive_rebound_pct": 0.03959454545454544,
+          "defensive_rebound_pct": 0.15477484848484827,
+          "modifiers": {
+            "matchup_multiplier": 1.02648022980065,
+            "xgb_multiplier": 0.9512005636808499,
+            "combined_multiplier": 1.0011211549989953
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501161,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612759,
+      "away_team_id": 1610612757,
+      "home_abbr": "SAS",
+      "away_abbr": "POR",
+      "home_days_rest": 2.0,
+      "away_days_rest": 2.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 88.0,
+      "away_pace": 88.0,
+      "home_ortg": 85.4981941391942,
+      "away_ortg": 72.1947619047619,
+      "home_drtg": 79.7095384615385,
+      "away_drtg": 66.3381428571429,
+      "home_starters": [
+        {
+          "player_id": 1628368,
+          "name": "De'Aaron Fox",
+          "usage_rate": 0.23890730152195996,
+          "true_shooting_pct": 0.5893933918072206,
+          "assist_rate": 0.2894194617446713,
+          "turnover_rate": 0.08979057705657473,
+          "offensive_rebound_pct": 0.02036709677419358,
+          "defensive_rebound_pct": 0.09466306451612902,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9642853641922856,
+            "combined_multiplier": 1.0144182964230544
+          }
+        },
+        {
+          "player_id": 1630170,
+          "name": "Devin Vassell",
+          "usage_rate": 0.17435627746731613,
+          "true_shooting_pct": 0.5735580264423478,
+          "assist_rate": 0.10530127156422567,
+          "turnover_rate": 0.05567439650018814,
+          "offensive_rebound_pct": 0.018682105263157882,
+          "defensive_rebound_pct": 0.1040122807017545,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9674727720512714,
+            "combined_multiplier": 1.0160934734176796
+          }
+        },
+        {
+          "player_id": 1642264,
+          "name": "Stephon Castle",
+          "usage_rate": 0.24069194667841554,
+          "true_shooting_pct": 0.5821459375634463,
+          "assist_rate": 0.3398375702378123,
+          "turnover_rate": 0.12237048484188015,
+          "offensive_rebound_pct": 0.046716,
+          "defensive_rebound_pct": 0.1147865,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9524264958420637,
+            "combined_multiplier": 1.0081612957861457
+          }
+        },
+        {
+          "player_id": 1641705,
+          "name": "Victor Wembanyama",
+          "usage_rate": 0.30131196965429013,
+          "true_shooting_pct": 0.6053150257037335,
+          "assist_rate": 0.15994135141791843,
+          "turnover_rate": 0.09388688031990627,
+          "offensive_rebound_pct": 0.07240210526315792,
+          "defensive_rebound_pct": 0.28412894736842087,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.8831799501066754,
+            "combined_multiplier": 0.9708203844995157
+          }
+        },
+        {
+          "player_id": 1630577,
+          "name": "Julian Champagnie",
+          "usage_rate": 0.14817303927016193,
+          "true_shooting_pct": 0.6346557436129179,
+          "assist_rate": 0.06751809273206621,
+          "turnover_rate": 0.08596365206618677,
+          "offensive_rebound_pct": 0.029126666666666714,
+          "defensive_rebound_pct": 0.16413902777777792,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 1.029625607232978,
+            "combined_multiplier": 1.0482236492127202
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1630166,
+          "name": "Deni Avdija",
+          "usage_rate": 0.2741126124017033,
+          "true_shooting_pct": 0.5798883726774008,
+          "assist_rate": 0.3079327539106177,
+          "turnover_rate": 0.12082932257440238,
+          "offensive_rebound_pct": 0.030564827586206884,
+          "defensive_rebound_pct": 0.17093379310344844,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9239203548364753,
+            "combined_multiplier": 0.9929595422558234
+          }
+        },
+        {
+          "player_id": 1641739,
+          "name": "Toumani Camara",
+          "usage_rate": 0.15982867062476672,
+          "true_shooting_pct": 0.5916485791026298,
+          "assist_rate": 0.10193312417983963,
+          "turnover_rate": 0.11333573254397626,
+          "offensive_rebound_pct": 0.044562972972972986,
+          "defensive_rebound_pct": 0.1027879729729727,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 1.0762535843819319,
+            "combined_multiplier": 1.071695955097412
+          }
+        },
+        {
+          "player_id": 203924,
+          "name": "Jerami Grant",
+          "usage_rate": 0.22838943523013747,
+          "true_shooting_pct": 0.6092494186959756,
+          "assist_rate": 0.11213374709721129,
+          "turnover_rate": 0.10666917889206516,
+          "offensive_rebound_pct": 0.03524666666666661,
+          "defensive_rebound_pct": 0.082315,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9598914698550576,
+            "combined_multiplier": 1.0121044917732935
+          }
+        },
+        {
+          "player_id": 1631101,
+          "name": "Shaedon Sharpe",
+          "usage_rate": 0.289710582383639,
+          "true_shooting_pct": 0.557060682708794,
+          "assist_rate": 0.14853678832592093,
+          "turnover_rate": 0.12093730461221612,
+          "offensive_rebound_pct": 0.031243043478260877,
+          "defensive_rebound_pct": 0.10828956521739148,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9703125890741493,
+            "combined_multiplier": 1.017583647232329
+          }
+        },
+        {
+          "player_id": 201950,
+          "name": "Jrue Holiday",
+          "usage_rate": 0.2164499437228058,
+          "true_shooting_pct": 0.5690243196321546,
+          "assist_rate": 0.29299625375762084,
+          "turnover_rate": 0.11597055470055248,
+          "offensive_rebound_pct": 0.041888000000000036,
+          "defensive_rebound_pct": 0.10214466666666634,
+          "modifiers": {
+            "matchup_multiplier": 1.0330332163501932,
+            "xgb_multiplier": 0.9463662947790232,
+            "combined_multiplier": 1.004948759161969
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501162,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612743,
+      "away_team_id": 1610612763,
+      "home_abbr": "DEN",
+      "away_abbr": "MEM",
+      "home_days_rest": 2.0,
+      "away_days_rest": 2.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 93.62519415767157,
+      "away_pace": 100.61089958797696,
+      "home_ortg": 87.8904945054945,
+      "away_ortg": 90.12,
+      "home_drtg": 82.6081794871795,
+      "away_drtg": 100.189166666667,
+      "home_starters": [
+        {
+          "player_id": 1627750,
+          "name": "Jamal Murray",
+          "usage_rate": 0.26508401815503063,
+          "true_shooting_pct": 0.5760261925155311,
+          "assist_rate": 0.29583676549465415,
+          "turnover_rate": 0.07502985185415495,
+          "offensive_rebound_pct": 0.01326,
+          "defensive_rebound_pct": 0.11095774647887277,
+          "modifiers": {
+            "matchup_multiplier": 0.9754621027771111,
+            "xgb_multiplier": 0.9246714694939367,
+            "combined_multiplier": 0.9380027905002797
+          }
+        },
+        {
+          "player_id": 203999,
+          "name": "Nikola Joki\u0107",
+          "usage_rate": 0.27540011701559375,
+          "true_shooting_pct": 0.6342344689578472,
+          "assist_rate": 0.45141587944930295,
+          "turnover_rate": 0.10983838364425925,
+          "offensive_rebound_pct": 0.08887600000000007,
+          "defensive_rebound_pct": 0.2736931666666664,
+          "modifiers": {
+            "matchup_multiplier": 0.9754621027771111,
+            "xgb_multiplier": 0.8849816270559056,
+            "combined_multiplier": 0.9176509715081345
+          }
+        },
+        {
+          "player_id": 1631128,
+          "name": "Christian Braun",
+          "usage_rate": 0.14324861058206806,
+          "true_shooting_pct": 0.5853261920397581,
+          "assist_rate": 0.11407583689244176,
+          "turnover_rate": 0.07614167005006986,
+          "offensive_rebound_pct": 0.04726829268292678,
+          "defensive_rebound_pct": 0.09769902439024393,
+          "modifiers": {
+            "matchup_multiplier": 0.9754621027771111,
+            "xgb_multiplier": 1.0339310411093892,
+            "combined_multiplier": 0.9918732743802474
+          }
+        },
+        {
+          "player_id": 1629661,
+          "name": "Cameron Johnson",
+          "usage_rate": 0.144330643915846,
+          "true_shooting_pct": 0.5958856448417355,
+          "assist_rate": 0.10102577011134381,
+          "turnover_rate": 0.061177546243610194,
+          "offensive_rebound_pct": 0.028029600000000002,
+          "defensive_rebound_pct": 0.09720240000000001,
+          "modifiers": {
+            "matchup_multiplier": 0.9754621027771111,
+            "xgb_multiplier": 1.03258281248469,
+            "combined_multiplier": 0.9912263704200802
+          }
+        },
+        {
+          "player_id": 1631212,
+          "name": "Peyton Watson",
+          "usage_rate": 0.20472307816526916,
+          "true_shooting_pct": 0.5791281623376237,
+          "assist_rate": 0.10115467463069726,
+          "turnover_rate": 0.11573108679214673,
+          "offensive_rebound_pct": 0.03845207547169815,
+          "defensive_rebound_pct": 0.1243443396226417,
+          "modifiers": {
+            "matchup_multiplier": 0.9754621027771111,
+            "xgb_multiplier": 1.0029876583306365,
+            "combined_multiplier": 0.9769181897544179
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1643253,
+          "name": "Toby Okani",
+          "usage_rate": 0.12974772468450912,
+          "true_shooting_pct": 0.44061232179697085,
+          "assist_rate": 0.04,
+          "turnover_rate": 0.04,
+          "offensive_rebound_pct": 0.06732,
+          "defensive_rebound_pct": 0.07777,
+          "modifiers": {
+            "matchup_multiplier": 1.0015137009016915,
+            "xgb_multiplier": 1.25,
+            "combined_multiplier": 1.1197263578067873
+          }
+        },
+        {
+          "player_id": 1628991,
+          "name": "Jaren Jackson Jr.",
+          "usage_rate": 0.25058069835136076,
+          "true_shooting_pct": 0.5706078139297303,
+          "assist_rate": 0.11134642931661207,
+          "turnover_rate": 0.10380684099142357,
+          "offensive_rebound_pct": 0.02778933333333329,
+          "defensive_rebound_pct": 0.1404797777777779,
+          "modifiers": {
+            "matchup_multiplier": 1.0015137009016915,
+            "xgb_multiplier": 0.9663583168108983,
+            "combined_multiplier": 0.984523278510711
+          }
+        },
+        {
+          "player_id": 1641727,
+          "name": "Dariq Whitehead",
+          "usage_rate": 0.21065381577403192,
+          "true_shooting_pct": 0.42,
+          "assist_rate": 0.11262042046974818,
+          "turnover_rate": 0.08968436124324801,
+          "offensive_rebound_pct": 0.01,
+          "defensive_rebound_pct": 0.143925,
+          "modifiers": {
+            "matchup_multiplier": 1.0015137009016915,
+            "xgb_multiplier": 1.0512630144755046,
+            "combined_multiplier": 1.0268631937946902
+          }
+        },
+        {
+          "player_id": 1641712,
+          "name": "Rayan Rupert",
+          "usage_rate": 0.1374996143676998,
+          "true_shooting_pct": 0.42665381973952055,
+          "assist_rate": 0.07481300415042663,
+          "turnover_rate": 0.09023214231303595,
+          "offensive_rebound_pct": 0.033698490566037735,
+          "defensive_rebound_pct": 0.1051543396226417,
+          "modifiers": {
+            "matchup_multiplier": 1.0015137009016915,
+            "xgb_multiplier": 1.2207871283803668,
+            "combined_multiplier": 1.1065648371027448
+          }
+        },
+        {
+          "player_id": 1629630,
+          "name": "Ja Morant",
+          "usage_rate": 0.30239122179338807,
+          "true_shooting_pct": 0.5126840907161737,
+          "assist_rate": 0.448076866451383,
+          "turnover_rate": 0.11498285108515424,
+          "offensive_rebound_pct": 0.02512421052631577,
+          "defensive_rebound_pct": 0.09196315789473687,
+          "modifiers": {
+            "matchup_multiplier": 1.0015137009016915,
+            "xgb_multiplier": 0.9595819551650793,
+            "combined_multiplier": 0.9810653362480914
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501163,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612746,
+      "away_team_id": 1610612760,
+      "home_abbr": "LAC",
+      "away_abbr": "OKC",
+      "home_days_rest": 1.0,
+      "away_days_rest": 1.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 88.0,
+      "away_pace": 98.9639546153857,
+      "home_ortg": 86.2561904761905,
+      "away_ortg": 96.531956043956,
+      "home_drtg": 82.2146245421245,
+      "away_drtg": 85.996532967033,
+      "home_starters": [
+        {
+          "player_id": 201935,
+          "name": "James Harden",
+          "usage_rate": 0.2581953872524317,
+          "true_shooting_pct": 0.5619527951911955,
+          "assist_rate": 0.33214958402938993,
+          "turnover_rate": 0.10818669230769223,
+          "offensive_rebound_pct": 0.01697907692307698,
+          "defensive_rebound_pct": 0.12151076923076892,
+          "modifiers": {
+            "matchup_multiplier": 0.9966046201218081,
+            "xgb_multiplier": 0.85,
+            "combined_multiplier": 0.9188240601556499
+          }
+        },
+        {
+          "player_id": 202695,
+          "name": "Kawhi Leonard",
+          "usage_rate": 0.3103773199914669,
+          "true_shooting_pct": 0.5786173620927552,
+          "assist_rate": 0.1871163328624094,
+          "turnover_rate": 0.07507885964912277,
+          "offensive_rebound_pct": 0.038402105263157855,
+          "defensive_rebound_pct": 0.16976859649122847,
+          "modifiers": {
+            "matchup_multiplier": 0.9966046201218081,
+            "xgb_multiplier": 0.85,
+            "combined_multiplier": 0.9188240601556499
+          }
+        },
+        {
+          "player_id": 1627826,
+          "name": "Ivica Zubac",
+          "usage_rate": 0.1821268546736026,
+          "true_shooting_pct": 0.5850448863870152,
+          "assist_rate": 0.11075628182652501,
+          "turnover_rate": 0.11687362905927544,
+          "offensive_rebound_pct": 0.12160666666666643,
+          "defensive_rebound_pct": 0.23059422222222212,
+          "modifiers": {
+            "matchup_multiplier": 0.9966046201218081,
+            "xgb_multiplier": 0.8992675501465421,
+            "combined_multiplier": 0.9450773553295655
+          }
+        },
+        {
+          "player_id": 1631097,
+          "name": "Bennedict Mathurin",
+          "usage_rate": 0.23040773702157738,
+          "true_shooting_pct": 0.5159685833976188,
+          "assist_rate": 0.11900452212221999,
+          "turnover_rate": 0.10862728723404248,
+          "offensive_rebound_pct": 0.03268340425531919,
+          "defensive_rebound_pct": 0.14645,
+          "modifiers": {
+            "matchup_multiplier": 0.9966046201218081,
+            "xgb_multiplier": 0.85,
+            "combined_multiplier": 0.9188240601556499
+          }
+        },
+        {
+          "player_id": 1629636,
+          "name": "Darius Garland",
+          "usage_rate": 0.24926064960461705,
+          "true_shooting_pct": 0.5419683718828101,
+          "assist_rate": 0.3188411873101923,
+          "turnover_rate": 0.112168125,
+          "offensive_rebound_pct": 0.015759000000000002,
+          "defensive_rebound_pct": 0.06607924999999999,
+          "modifiers": {
+            "matchup_multiplier": 0.9966046201218081,
+            "xgb_multiplier": 0.85,
+            "combined_multiplier": 0.9188240601556499
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1628983,
+          "name": "Shai Gilgeous-Alexander",
+          "usage_rate": 0.3137197451771583,
+          "true_shooting_pct": 0.6424345410258204,
+          "assist_rate": 0.32664534142074536,
+          "turnover_rate": 0.06421182296099553,
+          "offensive_rebound_pct": 0.01870548387096779,
+          "defensive_rebound_pct": 0.10515403225806406,
+          "modifiers": {
+            "matchup_multiplier": 0.9836589448099254,
+            "xgb_multiplier": 0.9158945495729587,
+            "combined_multiplier": 0.9413850191108897
+          }
+        },
+        {
+          "player_id": 1631096,
+          "name": "Chet Holmgren",
+          "usage_rate": 0.20909625912558727,
+          "true_shooting_pct": 0.6060212142289432,
+          "assist_rate": 0.08273598290376034,
+          "turnover_rate": 0.09009605594194826,
+          "offensive_rebound_pct": 0.06806476190476186,
+          "defensive_rebound_pct": 0.2185928571428567,
+          "modifiers": {
+            "matchup_multiplier": 0.9836589448099254,
+            "xgb_multiplier": 0.9165524522648302,
+            "combined_multiplier": 0.9417230648814426
+          }
+        },
+        {
+          "player_id": 1631114,
+          "name": "Jalen Williams",
+          "usage_rate": 0.2447506600783971,
+          "true_shooting_pct": 0.5305908135168026,
+          "assist_rate": 0.2741288485821443,
+          "turnover_rate": 0.07969870067594276,
+          "offensive_rebound_pct": 0.02845448275862066,
+          "defensive_rebound_pct": 0.13314586206896598,
+          "modifiers": {
+            "matchup_multiplier": 0.9836589448099254,
+            "xgb_multiplier": 0.9294015970386442,
+            "combined_multiplier": 0.9483010965109875
+          }
+        },
+        {
+          "player_id": 1629652,
+          "name": "Luguentz Dort",
+          "usage_rate": 0.1436804491249989,
+          "true_shooting_pct": 0.5398218242142018,
+          "assist_rate": 0.0550449776587573,
+          "turnover_rate": 0.08641547638119318,
+          "offensive_rebound_pct": 0.030098360655737733,
+          "defensive_rebound_pct": 0.09619836065573774,
+          "modifiers": {
+            "matchup_multiplier": 0.9836589448099254,
+            "xgb_multiplier": 1.082381485503854,
+            "combined_multiplier": 1.0233748104878124
+          }
+        },
+        {
+          "player_id": 1641717,
+          "name": "Cason Wallace",
+          "usage_rate": 0.14339129499820671,
+          "true_shooting_pct": 0.5478502599626355,
+          "assist_rate": 0.1298650815755225,
+          "turnover_rate": 0.07554306364161464,
+          "offensive_rebound_pct": 0.02943633802816905,
+          "defensive_rebound_pct": 0.07946281690140848,
+          "modifiers": {
+            "matchup_multiplier": 0.9836589448099254,
+            "xgb_multiplier": 1.0863173038144653,
+            "combined_multiplier": 1.025233749534715
+          }
+        }
+      ]
+    },
+    {
+      "game_id": 22501164,
+      "game_date": "2026-04-08",
+      "home_team_id": 1610612756,
+      "away_team_id": 1610612742,
+      "home_abbr": "PHX",
+      "away_abbr": "DAL",
+      "home_days_rest": 1.0,
+      "away_days_rest": 1.0,
+      "closing_spread": null,
+      "closing_total": null,
+      "home_pace": 100.30593968174752,
+      "away_pace": 108.0,
+      "home_ortg": 93.4988576423576,
+      "away_ortg": 99.4120054945055,
+      "home_drtg": 93.3269708624709,
+      "away_drtg": 105.57,
+      "home_starters": [
+        {
+          "player_id": 1626164,
+          "name": "Devin Booker",
+          "usage_rate": 0.30428728166821956,
+          "true_shooting_pct": 0.5351221301397564,
+          "assist_rate": 0.28536637032564255,
+          "turnover_rate": 0.09992287502073251,
+          "offensive_rebound_pct": 0.020099016393442637,
+          "defensive_rebound_pct": 0.09575131147540986,
+          "modifiers": {
+            "matchup_multiplier": 0.9370553196165817,
+            "xgb_multiplier": 0.9655028303842695,
+            "combined_multiplier": 0.92075059061619
+          }
+        },
+        {
+          "player_id": 1628415,
+          "name": "Dillon Brooks",
+          "usage_rate": 0.27644426456430093,
+          "true_shooting_pct": 0.4942523938090096,
+          "assist_rate": 0.09573752078831056,
+          "turnover_rate": 0.07853643578339184,
+          "offensive_rebound_pct": 0.02451923076923073,
+          "defensive_rebound_pct": 0.09837788461538466,
+          "modifiers": {
+            "matchup_multiplier": 0.9370553196165817,
+            "xgb_multiplier": 0.9319674595837344,
+            "combined_multiplier": 0.9046187912452389
+          }
+        },
+        {
+          "player_id": 1628960,
+          "name": "Grayson Allen",
+          "usage_rate": 0.22915126772171654,
+          "true_shooting_pct": 0.5266747948292457,
+          "assist_rate": 0.209434009332263,
+          "turnover_rate": 0.07901872990831567,
+          "offensive_rebound_pct": 0.022227500000000032,
+          "defensive_rebound_pct": 0.082378125,
+          "modifiers": {
+            "matchup_multiplier": 0.9370553196165817,
+            "xgb_multiplier": 0.9596419210327602,
+            "combined_multiplier": 0.9179517121206898
+          }
+        },
+        {
+          "player_id": 1631221,
+          "name": "Collin Gillespie",
+          "usage_rate": 0.18157381722204383,
+          "true_shooting_pct": 0.5211861446939839,
+          "assist_rate": 0.2312434095092778,
+          "turnover_rate": 0.08837149426004434,
+          "offensive_rebound_pct": 0.035169599999999995,
+          "defensive_rebound_pct": 0.1110192,
+          "modifiers": {
+            "matchup_multiplier": 0.9370553196165817,
+            "xgb_multiplier": 1.00993459202511,
+            "combined_multiplier": 0.9416984473740351
+          }
+        },
+        {
+          "player_id": 1626220,
+          "name": "Royce O'Neale",
+          "usage_rate": 0.14281184661325438,
+          "true_shooting_pct": 0.5912449806076997,
+          "assist_rate": 0.12926379966952,
+          "turnover_rate": 0.11215037867428138,
+          "offensive_rebound_pct": 0.023735675675675704,
+          "defensive_rebound_pct": 0.14286040540540546,
+          "modifiers": {
+            "matchup_multiplier": 0.9370553196165817,
+            "xgb_multiplier": 1.1028818645922083,
+            "combined_multiplier": 0.9840784652489825
+          }
+        }
+      ],
+      "away_starters": [
+        {
+          "player_id": 1642843,
+          "name": "Cooper Flagg",
+          "usage_rate": 0.2538687151194046,
+          "true_shooting_pct": 0.5142250790817603,
+          "assist_rate": 0.20688035932611282,
+          "turnover_rate": 0.0905073513057892,
+          "offensive_rebound_pct": 0.0340647619047619,
+          "defensive_rebound_pct": 0.1509709523809519,
+          "modifiers": {
+            "matchup_multiplier": 0.9939685791742152,
+            "xgb_multiplier": 0.9282478975997209,
+            "combined_multiplier": 0.9576452151157557
+          }
+        },
+        {
+          "player_id": 203076,
+          "name": "Anthony Davis",
+          "usage_rate": 0.26298055790420666,
+          "true_shooting_pct": 0.5062685837438095,
+          "assist_rate": 0.1265440752868872,
+          "turnover_rate": 0.0958017442936144,
+          "offensive_rebound_pct": 0.10006736842105259,
+          "defensive_rebound_pct": 0.24436684210526352,
+          "modifiers": {
+            "matchup_multiplier": 0.9939685791742152,
+            "xgb_multiplier": 0.9463511047363281,
+            "combined_multiplier": 0.9669383887346583
+          }
+        },
+        {
+          "player_id": 1629023,
+          "name": "P.J. Washington",
+          "usage_rate": 0.1913963432061423,
+          "true_shooting_pct": 0.5149205110550974,
+          "assist_rate": 0.08105808446363749,
+          "turnover_rate": 0.09740329638339902,
+          "offensive_rebound_pct": 0.0457111111111111,
+          "defensive_rebound_pct": 0.16463,
+          "modifiers": {
+            "matchup_multiplier": 0.9939685791742152,
+            "xgb_multiplier": 0.9406796114610216,
+            "combined_multiplier": 0.9640365980298597
+          }
+        },
+        {
+          "player_id": 1630230,
+          "name": "Naji Marshall",
+          "usage_rate": 0.19421406575835298,
+          "true_shooting_pct": 0.5705893834479515,
+          "assist_rate": 0.15646834482351601,
+          "turnover_rate": 0.08516606385746275,
+          "offensive_rebound_pct": 0.028633913043478218,
+          "defensive_rebound_pct": 0.12070231884058012,
+          "modifiers": {
+            "matchup_multiplier": 0.9939685791742152,
+            "xgb_multiplier": 0.9599215225134482,
+            "combined_multiplier": 0.9738465285917841
+          }
+        },
+        {
+          "player_id": 1631108,
+          "name": "Max Christie",
+          "usage_rate": 0.1608400833924697,
+          "true_shooting_pct": 0.6012942829693237,
+          "assist_rate": 0.09398636631330043,
+          "turnover_rate": 0.0987001136489537,
+          "offensive_rebound_pct": 0.01,
+          "defensive_rebound_pct": 0.09816028985507241,
+          "modifiers": {
+            "matchup_multiplier": 0.9939685791742152,
+            "xgb_multiplier": 1.0179700056711833,
+            "combined_multiplier": 1.002859624492599
+          }
+        }
+      ]
+    }
+  ]
+}

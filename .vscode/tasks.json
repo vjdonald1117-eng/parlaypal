@@ -1,0 +1,93 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Parlay Pal: Stop dev servers",
+      "type": "shell",
+      "command": "./scripts/stop_parlaypal_dev.sh",
+      "windows": {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}\\scripts\\stop_parlaypal_dev.ps1\""
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "close": true
+      }
+    },
+    {
+      "label": "Parlay Pal: Run (clean — one terminal, see [api] + [ui])",
+      "type": "shell",
+      "command": "./scripts/run_parlaypal_one_terminal.sh",
+      "windows": {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}\\scripts\\run_parlaypal_one_terminal.ps1\""
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "parlaypal"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Parlay Pal: API (uvicorn)",
+      "type": "shell",
+      "command": "python -m uvicorn api:app --host 127.0.0.1 --port 8000 --reload",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PYTHONUNBUFFERED": "1"
+        }
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "parlaypal"
+      }
+    },
+    {
+      "label": "Parlay Pal: UI (Vite)",
+      "type": "shell",
+      "command": "npm run dev -- --host 127.0.0.1",
+      "options": {
+        "cwd": "${workspaceFolder}/parlay-ui"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "parlaypal"
+      }
+    },
+    {
+      "label": "Parlay Pal: API + UI (two Cursor terminals)",
+      "dependsOn": ["Parlay Pal: API (uvicorn)", "Parlay Pal: UI (Vite)"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Parlay Pal: Run (clean — two Cursor terminals)",
+      "dependsOn": ["Parlay Pal: Stop dev servers", "Parlay Pal: API + UI (two Cursor terminals)"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}

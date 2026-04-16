@@ -1,0 +1,48 @@
+---
+description: Start Parlay Pal (FastAPI + Vite) when the user asks to start up Parlay Pal or run the app for predictions
+alwaysApply: true
+---
+
+# Parlay Pal startup
+
+When the user asks to **start Parlay Pal**, **start up parlay pal**, **run parlay pal**, or similar to work on **predictions / API / frontend**, follow this flow. **Do not** start uvicorn or `npm run dev` with the agent shell in **background** mode (`block_until_ms: 0` or equivalent)—that hides processes and causes ghost APIs (e.g. HTTP 409, stale code).
+
+## What to start
+
+1. **Backend / API** — FastAPI via uvicorn on **127.0.0.1:8000** (repo root, module `api:app`).
+2. **Frontend** — Vite dev server on **127.0.0.1:5173** in `parlay-ui/` (`npm run dev -- --host 127.0.0.1`).
+
+## Agent steps (every time: “run parlay pal”)
+
+1. **Clean stop (foreground, from repo root):**  
+   `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\stop_parlaypal_dev.ps1`  
+   On macOS/Linux in a bash shell: `bash ./scripts/stop_parlaypal_dev.sh`  
+   This frees ports **8000** and **5173** and kills repo-scoped **uvicorn api:app** / **vite** orphans (PowerShell script only for the latter).
+
+2. **Start in a visible Cursor terminal (user action):** The agent **cannot** attach to the editor’s Terminal UI reliably. After step 1, tell the user to run the **default build task** so **uvicorn and Vite both stream in one terminal** with `[api]` / `[ui]` prefixes (you always see uvicorn):
+   - **Terminal → Run Task… → Parlay Pal: Run (clean — one terminal, see [api] + [ui])**  
+   - Or **Ctrl+Shift+B** (that task is the default **build** task).
+
+   Optional: **Parlay Pal: Run (clean — two Cursor terminals)** = stop then API + UI in **two** dedicated terminals.
+
+3. **Never** for this instruction: run uvicorn or Vite from the agent as **detached/background** jobs. If the user cannot use Run Task, the fallback is **visible external windows:**  
+   `powershell -ExecutionPolicy Bypass -File .\scripts\start_parlaypal.ps1`  
+   (calls `stop_parlaypal_dev.ps1`, then `run_api_window.ps1` + `run_ui_window.ps1` in separate windows—no fragile inline `-Command`).
+
+## Scripts (repo)
+
+- `scripts/stop_parlaypal_dev.ps1` / `.sh` — free **8000** / **5173** (+ repo orphan match on Windows).
+- `scripts/run_parlaypal_one_terminal.ps1` / `.sh` — **concurrently**: one terminal, `[api]` + `[ui]`.
+- `scripts/run_api_window.ps1` / `run_ui_window.ps1` — used by `start_parlaypal.ps1`.
+- `scripts/start_parlaypal.ps1` — two external PowerShell windows.
+- `.vscode/tasks.json` — default **Parlay Pal: Run (clean — one terminal, see [api] + [ui])**.
+
+## After start
+
+- App URL: **http://127.0.0.1:5173/** (prefer **127.0.0.1** over `localhost` on Windows if IPv6 causes fetch issues).
+- Vite proxies `/api` to the API; keep `parlay-ui/.env.local` without pointing `VITE_API_BASE` at `http://localhost:8000` unless intentional.
+- Verify with `GET http://127.0.0.1:8000/api/health`. If projections are empty, the user may need **Run Simulations** in the UI or `POST /api/refresh-all`.
+
+## Repo root
+
+`c:\Users\Jayyy\OneDrive\Desktop\parlaypal` (adjust if the workspace path differs).

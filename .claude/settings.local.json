@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python migrate.py)",
+      "Bash(pip show:*)",
+      "Bash(pip list:*)",
+      "Bash(python -c \":*)",
+      "Bash(python:*)",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import sys; print\\(sys.stdin.buffer.read\\(\\).decode\\(''''utf-8'''', errors=''''replace''''\\)\\)\")",
+      "Bash(python3 seed_historical_data.py)",
+      "Bash(python3 -m pip install pandas nba_api)",
+      "Bash(python3 -m pip install sqlalchemy python-dotenv psycopg2-binary)",
+      "Bash(nslookup db.svhxpeodvhhyjxvpzxml.supabase.co)",
+      "Bash(ping -n 1 db.svhxpeodvhhyjxvpzxml.supabase.co)",
+      "Bash(nslookup:*)",
+      "Bash(python3 migrate.py)",
+      "Bash(TEST_MODE=False python3 seed_historical_data.py)",
+      "WebFetch(domain:www.rotowire.com)",
+      "WebFetch(domain:www.cbssports.com)",
+      "WebFetch(domain:site.api.espn.com)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard\")",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20260330\")",
+      "Bash(curl:*)",
+      "Bash(python3:*)"
+    ]
+  }
+}

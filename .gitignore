@@ -1,0 +1,85 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.manifest
+*.spec
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Type checkers / linters (if added later)
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# --- Node / frontend ---
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Vite
+parlay-ui/.vite/
+**/.vite/
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# --- Secrets (never commit) ---
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# --- Local SQLite / DB files ---
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+
+# HTTP / app caches that use SQLite (e.g. requests_cache → nba_http_cache.sqlite)
+.cache/
+
+# --- XGBoost & trained model artifacts (large / machine-specific) ---
+*.xgb
+*.ubj
+# Project convention: downloaded / trained booster dumps under models/
+models/xgboost_*.json
+
+# --- Logs & temp ---
+*.log
+*.tmp
+*.temp
+*.swp
+*~
+
+# --- Jupyter (if used for analysis) ---
+.ipynb_checkpoints/
