@@ -1,10 +1,13 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
 
 import { Header } from './components/Header'
+import { ParlaySlip } from './components/ParlaySlip'
 import {
   ALL_PROP_STATS,
   LINE_ADJUST_STEP,
   ProjectionTable,
+  type ParlaySlipLeg,
   type ProjectionRow,
   getEv,
   getPlayerLabel,
@@ -27,6 +30,15 @@ type ProjectionsApiEnvelope = {
   /** API returns this instead of 404 when the slate has no cached joint run */
   cache_miss?: boolean
   message?: string
+}
+
+type SimGamesListEnvelope = {
+  game_date?: string
+  games?: Array<{
+    home_team?: string
+    away_team?: string
+    game_matchup?: string
+  }>
 }
 
 type RefreshJobStart = {
@@ -469,8 +481,186 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object'
 }
 
+function getRowGameMatchup(row: ProjectionRow): string {
+  const direct = String(row.game_matchup ?? '').trim()
+  if (direct) return direct
+  const fallback = String(row.matchup ?? '').trim()
+  if (fallback) return fallback
+  const team = String(row.team ?? row.team_abbr ?? '').trim()
+  const opp = String(row.opponent ?? '').trim()
+  if (team && opp) return `${team} vs ${opp}`
+  return ''
+}
+
+function LoadingSkeletonCards({ count = 6 }: { count?: number }) {
+  return (
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {Array.from({ length: count }).map((_, idx) => (
+        <div key={`skeleton-${idx}`} className="animate-pulse rounded-xl border border-zinc-800 bg-zinc-950/90 p-4">
+          <div className="mb-3 h-4 w-2/5 rounded bg-gray-800" />
+          <div className="mb-2 h-3 w-4/5 rounded bg-gray-800" />
+          <div className="mb-2 h-3 w-3/5 rounded bg-gray-800" />
+          <div className="mb-4 h-3 w-2/3 rounded bg-gray-800" />
+          <div className="space-y-2">
+            <div className="h-8 rounded bg-gray-800" />
+            <div className="h-8 rounded bg-gray-800" />
+            <div className="h-8 rounded bg-gray-800" />
+          </div>
+        </div>
+      ))}
+    </section>
+  )
+}
+
+const DASHBOARD_STATS_ORDER = ['pts', 'reb', 'ast', 'blk', 'stl', 'fg3'] as const
+
+function statLabel(stat: string): string {
+  const s = stat.toLowerCase()
+  if (s === 'pts') return 'PTS'
+  if (s === 'reb') return 'REB'
+  if (s === 'ast') return 'AST'
+  if (s === 'blk') return 'BLK'
+  if (s === 'stl') return 'STL'
+  if (s === 'fg3') return '3PM'
+  return s.toUpperCase()
+}
+
+/** 0–100 for bar height / tooltips; mirrors `toPercent` (API may send probability as 0–1 or 0–100). */
+function overProbPercent(value: unknown): number {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed)) return 0
+  const scaled = parsed > 0 && parsed <= 1 ? parsed * 100 : parsed
+  return Math.max(0, Math.min(100, scaled))
+}
+
+function barColor(overProbPct: number): string {
+  if (overProbPct >= 60) return 'bg-green-500'
+  if (overProbPct < 40) return 'bg-red-500'
+  return 'bg-gray-300'
+}
+
+function playerInitialsFromName(name: string): string {
+  const parts = name
+    .trim()
+    .split(/\s+/)
+    .filter((p) => p.length > 0)
+  if (parts.length === 0) return '?'
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
+  return `${parts[0][0] ?? ''}${parts[parts.length - 1][0] ?? ''}`.toUpperCase() || '?'
+}
+
+function extractJerseyLikeLabel(row: ProjectionRow): string {
+  const maybeJersey = (row as ProjectionRow & { jersey_number?: string | number }).jersey_number
+  if (maybeJersey !== undefined && maybeJersey !== null && String(maybeJersey).trim().length > 0) {
+    return String(maybeJersey).trim()
+  }
+  const player = String(row.player_name ?? row.player ?? '')
+  const trailingNumber = player.match(/#?\s*(\d{1,2})$/)
+  if (trailingNumber?.[1]) return trailingNumber[1]
+  return playerInitialsFromName(player)
+}
+
+function rowOverProbForDisplay(row: ProjectionRow): number {
+  const raw =
+    (row as ProjectionRow & { over_prob?: unknown }).over_prob ?? row.over_pct ?? row.win_probability
+  return overProbPercent(raw)
+}
+
+function parseMatchupTeams(gameMatchup: string): { away: string; home: string } {
+  const raw = String(gameMatchup ?? '').trim()
+  if (!raw.includes('@')) return { away: '', home: '' }
+  const parts = raw.split('@').map((x) => x.trim())
+  if (parts.length >= 2) {
+    return { away: parts[0], home: parts[1] }
+  }
+  return { away: '', home: '' }
+}
+
+/** Prefer any row's `game_matchup` with `away @ home` so charts work when the dropdown used a `vs` label. */
+function canonicalAtMatchupFromRows(rows: ProjectionRow[], fallback: string): string {
+  for (const r of rows) {
+    const m = getRowGameMatchup(r)
+    if (m.includes('@')) return m
+  }
+  return fallback
+}
+
+function normalizeTeamToken(value: unknown): string {
+  return String(value ?? '')
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, '')
+}
+
+function normalizeMatchupKey(raw: string): string {
+  const normalized = String(raw ?? '').toUpperCase().replace(/\s+/g, ' ').trim()
+  if (normalized.includes('@')) {
+    const [away, home] = normalized.split('@').map((x) => x.trim())
+    if (away && home) return `${away}@${home}`
+  }
+  if (normalized.includes('VS')) {
+    const [left, right] = normalized.split('VS').map((x) => x.trim())
+    if (left && right) return `${left}@${right}`
+  }
+  return normalized.replace(/\s+/g, '')
+}
+
+function getRowTeamToken(row: ProjectionRow): string {
+  return normalizeTeamToken(row.team ?? row.team_abbr)
+}
+
+/** True if two team abbreviations / tokens refer to the same side (handles minor string drift). */
+function teamCodesLooselyMatch(a: string, b: string): boolean {
+  const x = normalizeTeamToken(a)
+  const y = normalizeTeamToken(b)
+  if (!x || !y) return false
+  if (x === y) return true
+  if (x.includes(y) || y.includes(x)) return true
+  return false
+}
+
+/**
+ * When `team` is missing, infer from `opponent` + `game_matchup` (away @ home).
+ */
+function inferredPlayerTeamToken(row: ProjectionRow): string {
+  const direct = getRowTeamToken(row)
+  if (direct) return direct
+  const m = getRowGameMatchup(row)
+  const opp = normalizeTeamToken(row.opponent)
+  if (m.includes('@')) {
+    const { away, home } = parseMatchupTeams(m)
+    const awayT = normalizeTeamToken(away)
+    const homeT = normalizeTeamToken(home)
+    if (opp && awayT && homeT) {
+      if (teamCodesLooselyMatch(opp, homeT)) return awayT
+      if (teamCodesLooselyMatch(opp, awayT)) return homeT
+    }
+  } else if (/\bvs\.?\b/i.test(m)) {
+    const parts = m.split(/\bvs\.?\b/i).map((x) => x.trim()).filter(Boolean)
+    if (parts.length >= 2 && opp) {
+      const left = normalizeTeamToken(parts[0])
+      const right = normalizeTeamToken(parts[1])
+      if (teamCodesLooselyMatch(opp, right)) return left
+      if (teamCodesLooselyMatch(opp, left)) return right
+    }
+  }
+  return ''
+}
+
+function rowBelongsToAwayColumn(row: ProjectionRow, awayToken: string, homeToken: string): boolean {
+  const t = inferredPlayerTeamToken(row)
+  const o = normalizeTeamToken(row.opponent)
+  return teamCodesLooselyMatch(t, awayToken) || teamCodesLooselyMatch(o, homeToken)
+}
+
+function rowBelongsToHomeColumn(row: ProjectionRow, awayToken: string, homeToken: string): boolean {
+  const t = inferredPlayerTeamToken(row)
+  const o = normalizeTeamToken(row.opponent)
+  return teamCodesLooselyMatch(t, homeToken) || teamCodesLooselyMatch(o, awayToken)
+}
+
 function App() {
-  const [selectedStat, setSelectedStat] = useState<Stat>('pts')
+  const [selectedStat, setSelectedStat] = useState<Stat>('all')
   const [selectedDay, setSelectedDay] = useState<'today' | 'tomorrow'>('tomorrow')
   const [overs, setOvers] = useState<ProjectionRow[]>([])
   const [unders, setUnders] = useState<ProjectionRow[]>([])
@@ -495,6 +685,7 @@ function App() {
   const [isHistoryLoading, setIsHistoryLoading] = useState(false)
   const [historyError, setHistoryError] = useState<string | null>(null)
   const [selectedHistoryDate, setSelectedHistoryDate] = useState<string | null>(null)
+  const [selectedGame, setSelectedGame] = useState<string>('All Games')
   const [showAllPicksForDate, setShowAllPicksForDate] = useState(false)
   const [showUngradedPastOnly, setShowUngradedPastOnly] = useState(false)
   const [combinedCachedStats, setCombinedCachedStats] = useState<string[]>([])
@@ -502,6 +693,9 @@ function App() {
   const [calibrationData, setCalibrationData] = useState<CalibrationResponse | null>(null)
   const [calibrationLoading, setCalibrationLoading] = useState(false)
   const [calibrationError, setCalibrationError] = useState<string | null>(null)
+  const [selectedLegs, setSelectedLegs] = useState<ParlaySlipLeg[]>([])
+  const [dashboardRows, setDashboardRows] = useState<ProjectionRow[]>([])
+  const [scheduledGames, setScheduledGames] = useState<string[]>([])
 
   const handleUpdateHistory = async () => {
     setIsHistoryLoading(true)
@@ -560,9 +754,46 @@ function App() {
     }
   }, [])
 
-  const hasData = useMemo(
-    () => overs.length > 0 || unders.length > 0 || bestParlays.length > 0,
-    [overs.length, unders.length, bestParlays.length],
+  const gameOptions = useMemo(() => {
+    const unique = new Set<string>()
+    for (const row of [...overs, ...unders]) {
+      const matchup = getRowGameMatchup(row)
+      if (matchup) unique.add(matchup)
+    }
+    return ['All Games', ...Array.from(unique).sort((a, b) => a.localeCompare(b))]
+  }, [overs, unders])
+
+  const filteredOvers = useMemo(
+    () =>
+      selectedGame === 'All Games'
+        ? overs
+        : overs.filter((row) => getRowGameMatchup(row) === selectedGame),
+    [overs, selectedGame],
+  )
+
+  const filteredUnders = useMemo(
+    () =>
+      selectedGame === 'All Games'
+        ? unders
+        : unders.filter((row) => getRowGameMatchup(row) === selectedGame),
+    [unders, selectedGame],
+  )
+
+  const filteredSimGameRows = useMemo(
+    () =>
+      selectedGame === 'All Games'
+        ? simGameRows
+        : simGameRows.filter((row) => getRowGameMatchup(row) === selectedGame),
+    [simGameRows, selectedGame],
+  )
+
+  const hasFilteredData = useMemo(
+    () =>
+      filteredOvers.length > 0 ||
+      filteredUnders.length > 0 ||
+      bestParlays.length > 0 ||
+      dashboardRows.length > 0,
+    [filteredOvers.length, filteredUnders.length, bestParlays.length, dashboardRows.length],
   )
 
   const loadSimGames = useCallback(async () => {
@@ -582,6 +813,26 @@ function App() {
       setSimGameRows(Array.isArray(rows) ? rows : [])
     } catch {
       setSimGameRows([])
+    }
+  }, [selectedDay])
+
+  const loadScheduledGames = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE}/api/sim-games-list?day=${encodeURIComponent(selectedDay)}`,
+      )
+      if (!response.ok) {
+        setScheduledGames([])
+        return
+      }
+      const data = (await response.json()) as SimGamesListEnvelope
+      const games = Array.isArray(data.games) ? data.games : []
+      const matchups = games
+        .map((g) => String(g.game_matchup ?? '').trim())
+        .filter((m) => m.length > 0)
+      setScheduledGames(Array.from(new Set(matchups)).sort((a, b) => a.localeCompare(b)))
+    } catch {
+      setScheduledGames([])
     }
   }, [selectedDay])
 
@@ -658,6 +909,7 @@ function App() {
         setGameDate(resolvedGameDate)
         setSimulatedAt(latestTs)
         setCombinedCachedStats(cachedStats)
+        setDashboardRows([...allOver, ...allUnder])
 
         if (cachedStats.length === 0) {
           setOvers([])
@@ -767,6 +1019,7 @@ function App() {
       const normalized = normalizeResponse(data)
       setOvers(normalized.overs)
       setUnders(normalized.unders)
+      setDashboardRows([...normalized.overs, ...normalized.unders])
     } catch (err) {
       const raw = err instanceof Error ? err.message : 'Unexpected error while loading projections.'
       if (raw === 'Failed to fetch' || raw.includes('NetworkError') || raw.includes('Load failed')) {
@@ -799,7 +1052,27 @@ function App() {
     })
   }, [])
 
+  const handleAddLegToSlip = useCallback((leg: ParlaySlipLeg) => {
+    let added = false
+    setSelectedLegs((prev) => {
+      const exists = prev.some((x) => x.id === leg.id)
+      if (exists) return prev
+      added = true
+      return [...prev, leg]
+    })
+    if (added) {
+      toast.success('Added to slip', {
+        duration: 1300,
+      })
+    }
+  }, [])
+
+  const handleClearSlip = useCallback(() => {
+    setSelectedLegs([])
+  }, [])
+
   const handleRunSimulations = async () => {
+    const loadingToastId = toast.loading('Simulating outcomes...')
     setIsRefreshing(true)
     setRefreshElapsedSec(0)
     setError(null)
@@ -901,12 +1174,16 @@ function App() {
       if (selectedStat !== 'ml' && selectedStat !== 'gproj') {
         await loadSimGames()
       }
+      toast.success('Predictions Updated', { id: loadingToastId })
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unexpected error while refreshing simulations.')
+      const message = err instanceof Error ? err.message : 'Unexpected error while refreshing simulations.'
+      setError(message)
+      toast.error(message, { id: loadingToastId })
     } finally {
       window.clearInterval(timerId)
       setRefreshElapsedSec(0)
       setIsRefreshing(false)
+      toast.dismiss(loadingToastId)
     }
   }
 
@@ -945,12 +1222,26 @@ function App() {
   }, [gameDate, simulatedAt, selectedStat, selectedDay])
 
   useEffect(() => {
+    if (!gameOptions.includes(selectedGame)) {
+      setSelectedGame('All Games')
+    }
+  }, [gameOptions, selectedGame])
+
+  useEffect(() => {
     if (currentPage !== 'projections' || selectedStat === 'ml' || selectedStat === 'gproj' || selectedStat === 'parlays') {
       setSimGameRows([])
       return
     }
     void loadSimGames()
   }, [currentPage, selectedStat, loadSimGames])
+
+  useEffect(() => {
+    if (currentPage !== 'projections') {
+      setScheduledGames([])
+      return
+    }
+    void loadScheduledGames()
+  }, [currentPage, selectedDay, loadScheduledGames])
 
   const fetchHistory = async () => {
     setIsHistoryLoading(true)
@@ -1171,6 +1462,31 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-zinc-100">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2400,
+          style: {
+            background: '#09090b',
+            color: '#e4e4e7',
+            border: '1px solid #3f3f46',
+            borderRadius: '12px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.45)',
+          },
+          success: {
+            iconTheme: {
+              primary: '#22c55e',
+              secondary: '#09090b',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#09090b',
+            },
+          },
+        }}
+      />
       <Header
         isLoading={isLoading}
         gameDate={gameDate}
@@ -1180,7 +1496,9 @@ function App() {
         onNavigate={setCurrentPage}
       />
 
-      <main className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-[1600px] space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
+          <section className="min-w-0 flex-1">
         {currentPage === 'projections' && (
           <>
             <section className="rounded-xl border border-zinc-800 bg-zinc-950/90 p-4 shadow-lg shadow-black/30">
@@ -1195,13 +1513,7 @@ function App() {
                     onChange={(event) => setSelectedStat(event.target.value as Stat)}
                     className="min-w-[10rem] rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none ring-zinc-500 transition focus:ring-2"
                   >
-                    <option value="all">All (top 10 O/U)</option>
-                    <option value="pts">Points</option>
-                    <option value="reb">Rebounds</option>
-                    <option value="ast">Assists</option>
-                    <option value="stl">Steals</option>
-                    <option value="blk">Blocks</option>
-                    <option value="fg3">3-pointers made</option>
+                    <option value="all">All Prop Stats (chart view)</option>
                     <option value="ml">Games (ML & spread)</option>
                     <option value="gproj">Games (sim points & cover)</option>
                     <option value="parlays">Best parlays (3-leg)</option>
@@ -1219,6 +1531,23 @@ function App() {
                   >
                     <option value="today">Today</option>
                     <option value="tomorrow">Tomorrow</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="game-select" className="text-xs font-medium uppercase tracking-wide text-zinc-400">
+                    Select Game
+                  </label>
+                  <select
+                    id="game-select"
+                    value={selectedGame}
+                    onChange={(event) => setSelectedGame(event.target.value)}
+                    className="min-w-[11rem] rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none ring-zinc-500 transition focus:ring-2"
+                  >
+                    {gameOptions.map((game) => (
+                      <option key={game} value={game}>
+                        {game}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -1310,8 +1639,91 @@ function App() {
               {error && <p className="mt-3 text-sm font-medium text-rose-400">{error}</p>}
             </section>
 
-            {selectedStat === 'parlays' ? (
+            {isLoading ? (
+              <LoadingSkeletonCards count={6} />
+            ) : selectedStat === 'parlays' ? (
               <BestParlaysSection parlays={bestParlays} gameDate={gameDate} />
+            ) : selectedStat !== 'ml' && selectedStat !== 'gproj' ? (
+              <section className="space-y-5">
+                {(scheduledGames.length > 0 ? scheduledGames : Array.from(new Set(dashboardRows.map((r) => getRowGameMatchup(r)).filter((m) => m.length > 0))).sort((a, b) => a.localeCompare(b))).map((matchup) => {
+                  const matchupKey = normalizeMatchupKey(matchup)
+                  const rowsForGame = dashboardRows.filter((r) => normalizeMatchupKey(getRowGameMatchup(r)) === matchupKey)
+                  const matchupCanon = canonicalAtMatchupFromRows(rowsForGame, matchup)
+                  const displayTitle = matchupCanon.includes('@') ? matchupCanon : matchup
+                  const teams = parseMatchupTeams(matchupCanon)
+                  const awayToken = normalizeTeamToken(teams.away)
+                  const homeToken = normalizeTeamToken(teams.home)
+                  return (
+                    <article
+                      key={matchup}
+                      className="rounded-2xl border border-zinc-800 bg-zinc-950/85 p-4 shadow-xl shadow-black/30"
+                    >
+                      <div className="mb-4 flex items-center justify-between border-b border-zinc-800 pb-3">
+                        <h3 className="text-lg font-semibold text-zinc-100">{displayTitle}</h3>
+                        <span className="text-xs text-zinc-400">{rowsForGame.length} active simulations</span>
+                      </div>
+                      <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+                        {DASHBOARD_STATS_ORDER.map((stat) => {
+                          const statRows = rowsForGame.filter((r) => String(r.stat ?? '').toLowerCase() === stat)
+                          const awayRows = statRows.filter((r) => rowBelongsToAwayColumn(r, awayToken, homeToken))
+                          const homeRows = statRows.filter((r) => rowBelongsToHomeColumn(r, awayToken, homeToken))
+                          const renderBars = (sideRows: ProjectionRow[]) => (
+                            <div className="flex h-48 items-end gap-2 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3">
+                              {sideRows.length === 0 ? (
+                                <span className="text-xs text-zinc-500">No players</span>
+                              ) : (
+                                sideRows.map((row, idx) => {
+                                  const pct = rowOverProbForDisplay(row)
+                                  const lineStr =
+                                    row.line != null && !Number.isNaN(Number(row.line))
+                                      ? Number(row.line).toFixed(1)
+                                      : '—'
+                                  return (
+                                    <div
+                                      key={`${getPlayerLabel(row)}-${stat}-${idx}`}
+                                      className="group relative flex min-w-8 w-10 shrink-0 flex-col self-stretch"
+                                    >
+                                      <div className="relative flex min-h-0 flex-1 flex-col justify-end">
+                                        <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1.5 hidden w-max max-w-[14rem] -translate-x-1/2 rounded-md border border-zinc-600 bg-zinc-950 px-2 py-1.5 text-left text-[10px] leading-snug text-zinc-100 shadow-xl group-hover:block">
+                                          <div className="font-semibold text-zinc-50">{getPlayerLabel(row)}</div>
+                                          <div className="text-zinc-300">Line: {lineStr}</div>
+                                          <div className="tabular-nums text-zinc-300">Proj: {pct.toFixed(1)}%</div>
+                                        </div>
+                                        <div
+                                          className={`w-full min-h-[4px] rounded-t-sm ${barColor(pct)}`}
+                                          style={{ height: `${pct}%` }}
+                                        />
+                                      </div>
+                                      <span className="mt-1 text-center text-[10px] font-medium leading-none text-zinc-400">
+                                        {extractJerseyLikeLabel(row)}
+                                      </span>
+                                    </div>
+                                  )
+                                })
+                              )}
+                            </div>
+                          )
+                          return (
+                            <section key={`${matchup}-${stat}`} className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
+                              <p className="mb-3 text-sm font-semibold tracking-wide text-zinc-100">{statLabel(stat)}</p>
+                              <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">{teams.away || 'Away'}</p>
+                                  {renderBars(awayRows)}
+                                </div>
+                                <div>
+                                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">{teams.home || 'Home'}</p>
+                                  {renderBars(homeRows)}
+                                </div>
+                              </div>
+                            </section>
+                          )
+                        })}
+                      </div>
+                    </article>
+                  )
+                })}
+              </section>
             ) : (
               <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                 <ProjectionTable
@@ -1324,46 +1736,46 @@ function App() {
                         ? 'Top OVERs (all stats)'
                         : 'Top OVERs'
                   }
-                  rows={overs}
+                  rows={filteredOvers}
                   side="OVER"
                   onSaveTopPick={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : (row) => setSavedOver(row)}
-                  showStatColumn={selectedStat === 'all'}
+                  showStatColumn={false}
                   lineExplorerBoard={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : 'OVER'}
                   lineDeltaByKey={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : lineDeltaByKey}
                   onLineDeltaStep={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : handleLineDeltaStep}
                   onLineDeltaReset={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : handleLineDeltaReset}
+                  onAddLegToSlip={selectedStat === 'ml' || selectedStat === 'gproj' ? undefined : handleAddLegToSlip}
                 />
                 {selectedStat !== 'gproj' && (
                   <ProjectionTable
                     title={
                       selectedStat === 'ml'
                         ? 'Top underdogs (ML & spread)'
-                        : selectedStat === 'all'
-                          ? 'Top UNDERs (all stats)'
-                          : 'Top UNDERs'
+                        : 'Top UNDERs'
                     }
-                    rows={unders}
+                    rows={filteredUnders}
                     side="UNDER"
                     onSaveTopPick={selectedStat === 'ml' ? undefined : (row) => setSavedUnder(row)}
-                    showStatColumn={selectedStat === 'all'}
+                    showStatColumn={false}
                     lineExplorerBoard={selectedStat === 'ml' ? undefined : 'UNDER'}
                     lineDeltaByKey={selectedStat === 'ml' ? undefined : lineDeltaByKey}
                     onLineDeltaStep={selectedStat === 'ml' ? undefined : handleLineDeltaStep}
                     onLineDeltaReset={selectedStat === 'ml' ? undefined : handleLineDeltaReset}
+                    onAddLegToSlip={selectedStat === 'ml' ? undefined : handleAddLegToSlip}
                   />
                 )}
               </section>
             )}
 
-            {selectedStat !== 'ml' && selectedStat !== 'gproj' && selectedStat !== 'parlays' && simGameRows.length > 0 && (
+            {selectedStat !== 'ml' && selectedStat !== 'gproj' && selectedStat !== 'parlays' && filteredSimGameRows.length > 0 && (
               <ProjectionTable
                 title="Model team win % (same joint PTS draws — top scorers summed per side)"
-                rows={simGameRows}
+                rows={filteredSimGameRows}
                 showStatColumn
               />
             )}
 
-            {!isLoading && !hasData && !error && (
+            {!isLoading && !hasFilteredData && !error && (
               <p className="text-center text-sm text-zinc-400">
                 No data loaded yet. Try clicking <span className="font-semibold text-zinc-300">Run Simulations</span>.
               </p>
@@ -1921,6 +2333,9 @@ function App() {
             )}
           </section>
         )}
+          </section>
+          <ParlaySlip selectedLegs={selectedLegs} onClearSlip={handleClearSlip} />
+        </div>
       </main>
     </div>
   )

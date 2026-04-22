@@ -35,6 +35,30 @@ from schemas import ProjectionsResponse
 router = APIRouter()
 
 
+def _resolve_game_date(day: str, game_date: Optional[str] = None) -> str:
+    if game_date:
+        return game_date
+    normalized_day = _normalize_day_query(day)
+    ny_today = datetime.now(_NY_TZ).date()
+    target_date = ny_today if normalized_day == "today" else (ny_today + timedelta(days=1))
+    return target_date.strftime("%Y-%m-%d")
+
+
+def _enrich_projection_row(row: dict[str, Any]) -> dict[str, Any]:
+    out = dict(row)
+    team = str(out.get("team") or out.get("team_abbr") or "").upper()
+    opponent = str(out.get("opponent") or "").upper()
+    out["team"] = team
+    out["opponent"] = opponent
+    game_matchup = str(out.get("game_matchup") or out.get("matchup") or "").strip()
+    if not game_matchup and team and opponent:
+        game_matchup = f"{team} @ {opponent}"
+    out["game_matchup"] = game_matchup
+    if "l10_hit_count" not in out:
+        out["l10_hit_count"] = 0
+    return out
+
+
 def _run_refresh_all_job(job_id: str, day: str, n_sims: int, fresh_odds: bool) -> None:
     """Background wrapper for /api/v1/refresh-all returning job-style progress."""
     import api as api_module
@@ -255,7 +279,8 @@ async def projections(
         team_upper = team.upper()
         results = [r for r in results if r["team_abbr"].upper() == team_upper]
 
-    results_sorted = sorted(results, key=_sort_key_edge_high_first, reverse=True)
+    results_enriched = [_enrich_projection_row(r) for r in results]
+    results_sorted = sorted(results_enriched, key=_sort_key_edge_high_first, reverse=True)
     return {
         "timestamp": entry_ts,
         "game_date": entry.get("game_date") if entry else game_date,
@@ -287,7 +312,7 @@ async def projections_leaders(
             continue
         rs = sorted(raw_rows, key=_sort_key_edge_high_first, reverse=True)[:per_stat]
         for r in rs:
-            row = dict(r)
+            row = _enrich_projection_row(r)
             row["stat"] = stat
             leaders.append(row)
     leaders.sort(key=_sort_key_edge_high_first, reverse=True)
@@ -323,7 +348,7 @@ async def projections_combined(day: str = Query(default="tomorrow")):
         if isinstance(ts, str) and (latest_ts is None or ts > latest_ts):
             latest_ts = ts
         for r in stat_rows:
-            row = dict(r)
+            row = _enrich_projection_row(r)
             row["stat"] = stat
             side = str(row.get("best_side") or "").upper()
             if side == "OVER":
@@ -421,8 +446,10 @@ async def sim_games(day: str = Query(default="tomorrow")):
                 "game_id": int(r.id),
                 "player_name": f"{home} vs {away}",
                 "team_abbr": home,
+                "team": home,
                 "opponent": away,
                 "matchup": f"{home} vs {away}",
+                "game_matchup": f"{away} @ {home}",
                 "stat": "gproj",
                 "line": closing_total,
                 "spread_line": spread,
@@ -440,6 +467,7 @@ async def sim_games(day: str = Query(default="tomorrow")):
                     else f"Sim {home} {home_score:.1f} - {away} {away_score:.1f}"
                 ),
                 "ensemble_lock": False,
+                "l10_hit_count": 0,
             }
         )
 
@@ -448,6 +476,45 @@ async def sim_games(day: str = Query(default="tomorrow")):
         "day": day,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "results": results,
+    }
+
+
+@router.get("/api/sim-games-list")
+async def sim_games_list(
+    day: str = Query(default="tomorrow"),
+    game_date: Optional[str] = Query(default=None),
+):
+    resolved_game_date = _resolve_game_date(day, game_date)
+    with Session(engine) as session:
+        rows = session.execute(
+            text(
+                """
+                SELECT DISTINCT
+                    th.abbreviation AS home_abbr,
+                    ta.abbreviation AS away_abbr
+                FROM games g
+                JOIN teams th ON th.id = g.home_team_id
+                JOIN teams ta ON ta.id = g.away_team_id
+                WHERE g.game_date = CAST(:gd AS date)
+                ORDER BY ta.abbreviation, th.abbreviation
+                """
+            ),
+            {"gd": resolved_game_date},
+        ).fetchall()
+
+    games = [
+        {
+            "home_team": str(r.home_abbr),
+            "away_team": str(r.away_abbr),
+            "game_matchup": f"{r.away_abbr} @ {r.home_abbr}",
+        }
+        for r in rows
+    ]
+    return {
+        "game_date": resolved_game_date,
+        "day": _normalize_day_query(day),
+        "n_games": len(games),
+        "games": games,
     }
 
 

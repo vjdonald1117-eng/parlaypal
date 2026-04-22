@@ -5,8 +5,10 @@ export type ProjectionRow = {
   game_id?: number
   player_name?: string
   team_abbr?: string
+  team?: string
   opponent?: string
   matchup?: string
+  game_matchup?: string
   stat?: string
   /** Prop: book line. For gproj, market game total (O/U). */
   line?: number
@@ -29,6 +31,22 @@ export type ProjectionRow = {
   explanation_tags?: string[]
   /** Historical / MC scale from API (joint run = raw σ; used for what-if line tool) */
   std_dev?: number
+  /** Backend Monte Carlo probability split fields */
+  over_pct?: number
+  /** Some payloads use this alias */
+  over_prob?: number
+  under_pct?: number
+  /** Last 10 games over-line hit count */
+  l10_hit_count?: number
+}
+
+export type ParlaySlipLeg = {
+  id: string
+  playerName: string
+  stat: string
+  line?: number
+  side: 'OVER' | 'UNDER'
+  matchup: string
 }
 
 export const ALL_PROP_STATS = ['pts', 'reb', 'ast', 'stl', 'blk', 'fg3'] as const
@@ -61,6 +79,103 @@ export function toNumber(value?: unknown): string {
 
 function isGameProjectionRow(row: ProjectionRow): boolean {
   return String(row.stat ?? '').toLowerCase() === 'gproj'
+}
+
+function isPropStatRow(row: ProjectionRow): boolean {
+  const st = String(row.stat ?? '').toLowerCase()
+  return st === 'pts' || st === 'reb' || st === 'ast' || st === 'blk' || st === 'stl' || st === 'fg3'
+}
+
+function statDisplayName(stat: string): string {
+  const st = stat.toLowerCase()
+  if (st === 'pts') return 'PTS'
+  if (st === 'reb') return 'REB'
+  if (st === 'ast') return 'AST'
+  if (st === 'blk') return 'BLK'
+  if (st === 'stl') return 'STL'
+  if (st === 'fg3') return '3PM'
+  return stat.toUpperCase()
+}
+
+function getOverProb(row: ProjectionRow): number | undefined {
+  return coerceFiniteNumber(row.over_pct)
+}
+
+function overProbFillClass(overProb: number): string {
+  if (overProb >= 60) return 'bg-green-500'
+  if (overProb < 40) return 'bg-red-500'
+  return 'bg-gray-300'
+}
+
+function inferSideFromOverProb(row: ProjectionRow, overProb: number): 'OVER' | 'UNDER' {
+  if (overProb >= 60) return 'OVER'
+  if (overProb < 40) return 'UNDER'
+  if (overProb >= 50) return 'OVER'
+  if (overProb < 50) return 'UNDER'
+  const best = String(row.best_side ?? '').toUpperCase()
+  return best === 'UNDER' ? 'UNDER' : 'OVER'
+}
+
+function StatBarGraph({
+  row,
+  lineLabel,
+  onAddLegToSlip,
+}: {
+  row: ProjectionRow
+  lineLabel: string
+  onAddLegToSlip?: (leg: ParlaySlipLeg) => void
+}) {
+  const overProb = getOverProb(row)
+  const overProbSafe = Math.max(0, Math.min(100, overProb ?? 0))
+  const hitCountRaw = coerceFiniteNumber(row.l10_hit_count)
+  const hitCount = hitCountRaw === undefined ? 0 : Math.max(0, Math.min(10, Math.round(hitCountRaw)))
+  const playerName = getPlayerLabel(row)
+  const stat = String(row.stat ?? '')
+  const side = inferSideFromOverProb(row, overProbSafe)
+  const lineNum = coerceFiniteNumber(row.line)
+  const matchup = formatMatchup(row)
+
+  return (
+    <div className="min-w-[16rem] rounded-lg border border-zinc-700/80 bg-zinc-900/70 p-3">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <div className="text-xs font-semibold uppercase tracking-wide text-zinc-300">
+          {statDisplayName(stat)} · Line {lineLabel}
+        </div>
+        <button
+          type="button"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-zinc-500 bg-zinc-800 text-sm font-semibold text-zinc-200 transition hover:bg-zinc-700"
+          aria-label={`Add ${playerName} ${statDisplayName(stat)} to bet slip`}
+          onClick={() => {
+            const leg: ParlaySlipLeg = {
+              id: `${playerName}|${statDisplayName(stat)}|${lineNum ?? 'na'}|${side}`,
+              playerName,
+              stat: statDisplayName(stat),
+              line: lineNum,
+              side,
+              matchup,
+            }
+            if (onAddLegToSlip) {
+              onAddLegToSlip(leg)
+            } else {
+              console.log('Add to bet slip:', leg)
+            }
+          }}
+        >
+          +
+        </button>
+      </div>
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-zinc-800">
+        <div
+          className={`h-full rounded-full transition-all ${overProbFillClass(overProbSafe)}`}
+          style={{ width: `${overProbSafe}%` }}
+        />
+      </div>
+      <div className="mt-1.5 flex items-center justify-between text-[11px] text-zinc-400">
+        <span>Over {toPercent(overProbSafe)}</span>
+        <span>Hit {hitCount} of last 10</span>
+      </div>
+    </div>
+  )
 }
 
 /** Market O/U total for gproj Line column (1 decimal, Vegas-style). */
@@ -260,6 +375,7 @@ function ProjectionTableRow({
   showStatColumn,
   onSaveTopPick,
   side,
+  onAddLegToSlip,
 }: {
   row: ProjectionRow
   lineKey: string
@@ -271,6 +387,7 @@ function ProjectionTableRow({
   showStatColumn?: boolean
   onSaveTopPick?: (row: ProjectionRow) => void
   side?: 'OVER' | 'UNDER'
+  onAddLegToSlip?: (leg: ParlaySlipLeg) => void
 }) {
   const rowStat = String(row.stat ?? '').toLowerCase()
   const explorerEnabled = Boolean(
@@ -302,6 +419,8 @@ function ProjectionTableRow({
       : isGameProjectionRow(row)
         ? projectedMean.toFixed(1)
         : toNumber(projectedMean)
+  const isPropRow = isPropStatRow(row)
+  const lineLabel = isGameProjectionRow(row) ? formatGameTotalLineCell(row) : toNumber(row.line)
 
   return (
     <tr className="text-zinc-200">
@@ -330,7 +449,9 @@ function ProjectionTableRow({
       )}
       <td className="whitespace-nowrap px-4 py-3 text-zinc-300">{formatMatchup(row)}</td>
       <td className="px-4 py-3 align-top text-zinc-200">
-        {explorerEnabled && baseLineNum !== undefined ? (
+        {isPropRow ? (
+          <StatBarGraph row={row} lineLabel={lineLabel} onAddLegToSlip={onAddLegToSlip} />
+        ) : explorerEnabled && baseLineNum !== undefined ? (
           <LineExplorerPanel
             baseLine={baseLineNum}
             adjLine={adjLine}
@@ -416,6 +537,7 @@ export function ProjectionTable({
   lineDeltaByKey,
   onLineDeltaStep,
   onLineDeltaReset,
+  onAddLegToSlip,
 }: {
   title: string
   rows: ProjectionRow[]
@@ -427,6 +549,7 @@ export function ProjectionTable({
   lineDeltaByKey?: Record<string, number>
   onLineDeltaStep?: (rowKey: string, dir: -1 | 1, baseLine: number) => void
   onLineDeltaReset?: (rowKey: string) => void
+  onAddLegToSlip?: (leg: ParlaySlipLeg) => void
 }) {
   const hasGameRows = rows.some(isGameProjectionRow)
   const firstHeader = hasGameRows ? 'Game' : 'Player Name'
@@ -493,6 +616,7 @@ export function ProjectionTable({
                   showStatColumn={showStatColumn}
                   onSaveTopPick={onSaveTopPick}
                   side={side}
+                  onAddLegToSlip={onAddLegToSlip}
                 />
               )
             })}

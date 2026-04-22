@@ -11,7 +11,7 @@ Pipeline
        -> Mark that game OTB (On The Board - Waiting for Final Buzzer) and skip.
   4. If today's game IS finished:
        -> Run update_recent_games.py via subprocess to sync box score into DB.
-  5. Query the top 4 active scorers for each eligible team tomorrow.
+  5. Query the active roster slice for each eligible team tomorrow (see --scorers).
   6. For each player, run the full 5-layer projection
        (Baseline -> Next Man Up -> Defense -> Pace -> Coach Confidence -> Rust)
        with the prop line set to the player's season baseline average.
@@ -66,6 +66,7 @@ from models.player_projections import (
 from models.explanation_tags import ExplanationContext, generate_explanation_tags
 from services.simulations import (
     get_stat_stddev,
+    joint_stat_stddev_fallback,
     apply_context_adjustments,
     run_simulation,
     summarize_prop_from_samples,
@@ -77,6 +78,7 @@ from services.simulations import (
     MC_STAGE1_N,
     MC_EARLY_STOP_HIGH_PCT,
     MC_EARLY_STOP_LOW_PCT,
+    get_last10_hit_count,
     simulate_player,
 )
 from scripts.fetch_live_odds import (
@@ -378,6 +380,10 @@ def build_abbr_to_db_id(session: Session) -> dict[str, int]:
     ).fetchall()
     return {r.abbreviation.upper(): r.id for r in rows}
 
+# Joint sim can include rotation players once they have sparse box-score history;
+# keep below MIN_GP_DEFAULT (5) used by single-stat CLI so we do not over-expand there.
+JOINT_PROJECT_MIN_GP = 3
+
 
 def get_top_scorers(
     session: Session,
@@ -411,6 +417,50 @@ def get_top_scorers(
                 LIMIT :n
             """),
             {"tid": team_db_id, "season": s, "n": n},
+        ).fetchall()
+        if rows:
+            return [(r.id, r.full_name, float(r.avg_stat)) for r in rows]
+    return []
+
+
+def get_simulation_roster(
+    session: Session,
+    team_db_id: int,
+    season: str,
+    stat: str = "pts",
+    *,
+    min_gp: int = 3,
+    max_players: int = 18,
+) -> list[tuple[int, str, float]]:
+    """
+    Players to run through the joint / refresh simulators for one team.
+
+    Unlike ``get_top_scorers`` (default min_gp=5 for stable season averages),
+    this uses a lower ``min_gp`` so rotation pieces with sparse history still
+    enter the pipeline; each *stat* is gated separately inside the sim loop.
+    """
+    col = STAT_SQL_COLUMN.get(stat, stat)
+    max_players = max(1, min(int(max_players), 22))
+    min_gp = max(1, min(int(min_gp), 20))
+    for s in [season, f"{int(season[:4])-1}-{season[:4][2:]}"]:
+        rows = session.execute(
+            text(f"""
+                SELECT p.id, p.full_name,
+                       ROUND(AVG(pbs.{col})::numeric, 2) AS avg_stat,
+                       COUNT(*) AS gp
+                FROM player_box_scores_traditional pbs
+                JOIN players p ON pbs.player_id = p.id
+                JOIN games   g ON pbs.game_id   = g.id
+                WHERE p.team_id      = :tid
+                  AND p.is_active    = TRUE
+                  AND pbs.dnp_status = FALSE
+                  AND g.season       = :season
+                GROUP BY p.id, p.full_name
+                HAVING COUNT(*) >= :min_gp
+                ORDER BY avg_stat DESC NULLS LAST
+                LIMIT :n
+            """),
+            {"tid": team_db_id, "season": s, "min_gp": min_gp, "n": max_players},
         ).fetchall()
         if rows:
             return [(r.id, r.full_name, float(r.avg_stat)) for r in rows]
@@ -477,6 +527,8 @@ class PlayerSim:
     line_source:  str            # "DK" | "FD" | "EST"
     over_odds:    int            # American odds (0 if no live line)
     under_odds:   int            # American odds (0 if no live line)
+    team:         str = ""
+    game_matchup: str = ""
     # --- XGBoost / Ensemble fields ---
     xgb_mean:       float = 0.0
     xgb_over_pct:   float = 0.0
@@ -487,6 +539,7 @@ class PlayerSim:
     xgb_available:  bool  = False
     ensemble_lock:  bool  = False
     sim_note:       str   = ""
+    l10_hit_count:  int   = 0
     explanation_tags: list[str] = field(default_factory=list)
 
 
@@ -611,10 +664,20 @@ def simulate_game_players_joint(
             session,
             player_name,
             season=season,
-            min_gp=MIN_GP_DEFAULT,
+            min_gp=JOINT_PROJECT_MIN_GP,
             opponent=opp_abbr,
         )
         if proj is None:
+            logger.warning(
+                "Skipping %s (%s vs %s) in joint sim for %s — project_player returned None "
+                "(no active `players` row matching this name, or fewer than %s games with "
+                "non-DNP box scores for season averages; see earlier player_projections logs).",
+                player_name,
+                team_abbr,
+                opp_abbr or "—",
+                game.label,
+                JOINT_PROJECT_MIN_GP,
+            )
             continue
 
         st_scale_joint = starter_mean_scale(
@@ -624,16 +687,26 @@ def simulate_game_players_joint(
 
         stat_payload: list[dict] = []
         for st in ("pts", "reb", "ast", "stl", "blk", "fg3"):
-            std_result = get_stat_stddev(session, proj.player.player_id, st, proj.season)
-            if std_result is None:
-                continue
-            std_dev, gp = std_result
-            if st in ("stl", "blk", "fg3"):
-                std_dev = max(std_dev, 0.08)
-
             pre_mean = getattr(proj, STAT_MAP[st][0])
             context = apply_context_adjustments(pre_mean, st, None, None)
             sim_mean = context.final_mean * st_scale_joint
+
+            std_result = get_stat_stddev(session, proj.player.player_id, st, proj.season)
+            if std_result is None:
+                std_dev, gp = joint_stat_stddev_fallback(st, sim_mean)
+                logger.warning(
+                    "Joint sim %s — %s: stat %s has no empirical std dev (<%s GP with variance "
+                    "in box scores); using heuristic sigma=%.3f so other stats can still run.",
+                    game.label,
+                    proj.player.full_name,
+                    st.upper(),
+                    3,
+                    std_dev,
+                )
+            else:
+                std_dev, gp = std_result
+            if st in ("stl", "blk", "fg3"):
+                std_dev = max(std_dev, 0.08)
 
             odds_dict = live_odds_by_stat.get(st)
             odds_entry = lookup_player_odds(proj.player.full_name, odds_dict) if odds_dict else None
@@ -648,10 +721,44 @@ def simulate_game_players_joint(
                 over_odds = 0
                 under_odds = 0
 
-            if std_dev <= 0 or line <= 0:
+            if line <= 0 and sim_mean > 0:
+                line = max(float(sim_mean), 0.25)
+                logger.warning(
+                    "Joint sim %s — %s: stat %s had no book line and baseline/line <= 0; "
+                    "using EST line=%.2f from projected mean so this category can still simulate.",
+                    game.label,
+                    proj.player.full_name,
+                    st.upper(),
+                    line,
+                )
+
+            if std_dev <= 0:
+                logger.warning(
+                    "Joint sim %s — %s: skipping stat %s — std_dev=%s after floors (non-positive).",
+                    game.label,
+                    proj.player.full_name,
+                    st.upper(),
+                    std_dev,
+                )
+                continue
+            if line <= 0:
+                logger.warning(
+                    "Joint sim %s — %s: skipping stat %s — no valid prop line "
+                    "(book line missing and projected mean is non-positive).",
+                    game.label,
+                    proj.player.full_name,
+                    st.upper(),
+                )
                 continue
 
             bump_val = getattr(proj, f"bump_{st}")
+            l10_hit_count = get_last10_hit_count(
+                session,
+                proj.player.player_id,
+                st,
+                line,
+                player_name=proj.player.full_name,
+            )
             if line_source == "EST":
                 std_dev *= 1.75
             stat_payload.append(
@@ -665,10 +772,18 @@ def simulate_game_players_joint(
                     "under_odds": under_odds,
                     "bump_val": bump_val,
                     "gp": gp,
+                    "l10_hit_count": l10_hit_count,
                 }
             )
 
         if not stat_payload:
+            logger.warning(
+                "Skipping %s (%s) in joint sim for %s — no stat categories produced simulations "
+                "(every stat failed std/line gates after odds + baseline resolution).",
+                player_name,
+                team_abbr,
+                game.label,
+            )
             continue
 
         Zp = np.random.randn(n)
@@ -739,6 +854,8 @@ def simulate_game_players_joint(
                     player_name=proj.player.full_name,
                     team_abbr=proj.player.team_abbr,
                     opponent=opp_display,
+                    team=proj.player.team_abbr,
+                    game_matchup=f"{game.away_db_abbr} @ {game.home_db_abbr}",
                     stat=st.upper(),
                     line=round(sp["line"], 1),
                     final_mean=round(sp["sim_mean"], 2),
@@ -767,6 +884,7 @@ def simulate_game_players_joint(
                     xgb_available=False,
                     ensemble_lock=False,
                     sim_note=sim_note,
+                    l10_hit_count=int(sp.get("l10_hit_count") or 0),
                     explanation_tags=list(explain_tags),
                 )
             )
@@ -1092,8 +1210,8 @@ def main() -> None:
         help=f"Min GP required for a player to be included (default: {MIN_GP_DEFAULT})"
     )
     parser.add_argument(
-        "--scorers", default=4, type=int,
-        help="Top-N scorers to analyze per team (default: 4)"
+        "--scorers", default=12, type=int,
+        help="Max players per team to pull from box-score history (default: 12; ordered by --stat)"
     )
     parser.add_argument(
         "--no-color", action="store_true",
@@ -1225,11 +1343,23 @@ def main() -> None:
                         logger.warning(f"  [warn] Team {team_abbr!r} not found in DB — skipping.")
                     continue
 
-                scorers = get_top_scorers(
-                    session, db_id, season, stat, n=args.scorers
+                scorers = get_simulation_roster(
+                    session,
+                    db_id,
+                    season,
+                    stat,
+                    min_gp=max(2, int(args.min_gp)),
+                    max_players=int(args.scorers),
                 )
                 if not scorers:
-                    logger.warning(f"  [warn] No scorer data for {team_abbr} in {season} — skipping.")
+                    logger.warning(
+                        "No roster candidates for team %s in %s (no active players with "
+                        ">= %s GP for stat %s) — skipping this side.",
+                        team_abbr,
+                        season,
+                        max(2, int(args.min_gp)),
+                        stat.upper(),
+                    )
                     continue
 
                 for _, name, _ in scorers:

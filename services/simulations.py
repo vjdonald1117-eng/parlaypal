@@ -241,6 +241,90 @@ def get_stat_stddev(
     return None
 
 
+def joint_stat_stddev_fallback(stat: str, sim_mean: float) -> tuple[float, int]:
+    """
+    Wide heuristic σ when empirical std dev is unavailable (<3 GP with variance).
+    Used only in joint Monte Carlo so one missing stat (e.g. rare STL sample)
+    does not zero out the whole player row.
+    """
+    st = str(stat or "").strip().lower()
+    m = max(float(sim_mean), 0.05)
+    ratio = {
+        "pts": 0.28,
+        "reb": 0.30,
+        "ast": 0.34,
+        "stl": 0.50,
+        "blk": 0.60,
+        "fg3": 0.55,
+    }.get(st, 0.35)
+    floor = {
+        "pts": 2.0,
+        "reb": 1.0,
+        "ast": 1.0,
+        "stl": 0.35,
+        "blk": 0.35,
+        "fg3": 0.35,
+    }.get(st, 0.5)
+    return float(max(floor, m * ratio)), 0
+
+
+def get_last10_hit_count(
+    session: Session,
+    player_id: int,
+    stat: str,
+    line: float,
+    player_name: str | None = None,
+) -> int:
+    """
+    Return how many of the player's last 10 games were OVER the provided line.
+    """
+    if line <= 0:
+        return 0
+    stat_key = str(stat or "").strip().lower()
+    col = STAT_SQL_COLUMN.get(stat_key, stat_key)
+    rows = session.execute(
+        text(
+            f"""
+            SELECT pbs.{col} AS stat_value
+            FROM player_box_scores_traditional pbs
+            JOIN games g ON g.id = pbs.game_id
+            WHERE pbs.player_id = :pid
+              AND pbs.dnp_status = FALSE
+            ORDER BY g.game_date DESC, pbs.game_id DESC
+            LIMIT 10
+            """
+        ),
+        {"pid": player_id},
+    ).fetchall()
+    if not rows:
+        logger.debug(
+            "[L10] player=%s (id=%s) stat=%s col=%s line=%.2f history=[] hits=0",
+            player_name or "",
+            player_id,
+            stat_key,
+            col,
+            float(line),
+        )
+        return 0
+    history_vals = [
+        float(r.stat_value)
+        for r in rows
+        if r.stat_value is not None
+    ]
+    hit_count = int(sum(1 for v in history_vals if v > float(line)))
+    logger.debug(
+        "[L10] player=%s (id=%s) stat=%s col=%s line=%.2f history=%s hits=%s",
+        player_name or "",
+        player_id,
+        stat_key,
+        col,
+        float(line),
+        history_vals,
+        hit_count,
+    )
+    return hit_count
+
+
 # ---------------------------------------------------------------------------
 # Simulation
 # ---------------------------------------------------------------------------
@@ -711,7 +795,10 @@ def simulate_player(
 
     injured_out = get_injured_players_cached()
     if normalize_player_name(player_name) in injured_out:
-        logger.warning(f"[Late Scratch Guard] Skipping {player_name} - Ruled Out")
+        logger.warning(
+            "Skipping %s — ruled out / unavailable on injury report (Late Scratch Guard).",
+            player_name,
+        )
         return None
 
     PlayerSim = _pb.PlayerSim
@@ -727,12 +814,25 @@ def simulate_player(
         opponent=opponent_abbr,
     )
     if proj is None:
+        logger.warning(
+            "Skipping %s — %s: could not load projection (no active DB name match or "
+            "fewer than %s games with box scores for season averages).",
+            player_name,
+            stat.upper(),
+            MIN_GP_DEFAULT,
+        )
         return None
 
     std_result = get_stat_stddev(
         session, proj.player.player_id, stat, proj.season
     )
     if std_result is None:
+        logger.warning(
+            "Skipping %s — %s: not enough game history to compute empirical std dev "
+            "(need >=3 games with a numeric sample for this stat in current or prior season).",
+            proj.player.full_name,
+            stat.upper(),
+        )
         return None
 
     std_dev, gp = std_result
@@ -766,7 +866,22 @@ def simulate_player(
         std_dev *= 1.75
 
     if std_dev <= 0 or line <= 0:
+        logger.warning(
+            "Skipping %s — %s: invalid simulation inputs (std_dev=%s, line=%s; "
+            "both must be positive).",
+            proj.player.full_name,
+            stat.upper(),
+            std_dev,
+            line,
+        )
         return None
+    l10_hit_count = get_last10_hit_count(
+        session,
+        proj.player.player_id,
+        stat,
+        line,
+        player_name=proj.player.full_name,
+    )
 
     tomorrow_obj = tomorrow_date_obj or (date.today() + timedelta(days=1))
     spr_row = session.execute(
@@ -866,10 +981,16 @@ def simulate_player(
     else:
         sim_note = h_note or x_note
 
+    opponent = proj.matchup.abbreviation if proj.matchup else (opponent_abbr or "")
+    team_abbr = proj.player.team_abbr
+    game_matchup = f"{opponent} @ {team_abbr}" if is_home else f"{team_abbr} @ {opponent}"
+
     return PlayerSim(
         player_name  = proj.player.full_name,
-        team_abbr    = proj.player.team_abbr,
-        opponent     = proj.matchup.abbreviation if proj.matchup else (opponent_abbr or ""),
+        team_abbr    = team_abbr,
+        opponent     = opponent,
+        team         = team_abbr,
+        game_matchup = game_matchup,
         stat         = stat.upper(),
         line         = round(line, 1),
         final_mean   = round(sim_mean, 2),
@@ -899,6 +1020,7 @@ def simulate_player(
         xgb_available  = xgb_available,
         ensemble_lock  = ensemble_lock,
         sim_note       = sim_note,
+        l10_hit_count  = l10_hit_count,
         explanation_tags=generate_explanation_tags(
             ExplanationContext(
                 proj=proj,

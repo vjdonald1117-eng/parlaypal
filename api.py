@@ -84,7 +84,7 @@ from models.parlay_builder import (
     simulate_game_players_joint,
     fetch_scoreboard,
     build_abbr_to_db_id,
-    get_top_scorers,
+    get_simulation_roster,
     trigger_db_update,
     _load_xgb_models,
 )
@@ -759,6 +759,24 @@ def _mixed_top_props(side_rows: list[dict[str, Any]], *, final_n: int, per_stat:
     return picked[:final_n]
 
 
+def _sim_roster_cap() -> int:
+    """Max players per team in unified joint sim (env PARLAY_SIM_ROSTER_CAP, default 18)."""
+    try:
+        n = int(os.getenv("PARLAY_SIM_ROSTER_CAP", "18"))
+    except ValueError:
+        n = 18
+    return max(4, min(22, n))
+
+
+def _sim_roster_min_gp() -> int:
+    """Min games played to include a player on the sim roster (PARLAY_SIM_ROSTER_MIN_GP, default 3)."""
+    try:
+        n = int(os.getenv("PARLAY_SIM_ROSTER_MIN_GP", "3"))
+    except ValueError:
+        n = 3
+    return max(1, min(10, n))
+
+
 def _log_predictions(sims: list[PlayerSim], game_date: str) -> None:
     """Persist simulation results to prediction_log (batch insert, one row per PlayerSim.stat)."""
     rows = [
@@ -789,7 +807,7 @@ def _log_predictions(sims: list[PlayerSim], game_date: str) -> None:
 def _run_full_pipeline(
     stat: str,
     target_date,
-    top_scorers_n: int = 4,
+    top_scorers_n: int | None = None,
     n_sims: int | None = None,
     *,
     use_odds_cache: bool = True,
@@ -799,6 +817,9 @@ def _run_full_pipeline(
     Mirrors the logic in parlay_builder.main() but returns data instead of
     printing to stdout.
     """
+    if top_scorers_n is None:
+        top_scorers_n = _sim_roster_cap()
+
     season = current_season()
     injured_out_names = get_injured_players()
 
@@ -900,9 +921,16 @@ def _run_full_pipeline(
                         g.label,
                     )
                     continue
-                top_players = get_top_scorers(session, db_id, season, stat, n=top_scorers_n)
+                top_players = get_simulation_roster(
+                    session,
+                    db_id,
+                    season,
+                    stat,
+                    min_gp=_sim_roster_min_gp(),
+                    max_players=int(top_scorers_n),
+                )
                 logger.debug(
-                    "[DEBUG] top_scorers returned %s players for team_abbr=%s, db_id=%s, stat=%s",
+                    "[DEBUG] simulation roster returned %s players for team_abbr=%s, db_id=%s, stat=%s",
                     len(top_players),
                     team_abbr,
                     db_id,
@@ -1087,7 +1115,14 @@ def _run_unified_pipeline(
                 opp_db_id = abbr_to_db.get(opp_abbr.upper())
                 if db_id is None:
                     continue
-                top_players = get_top_scorers(session, db_id, season, "pts", n=4)
+                top_players = get_simulation_roster(
+                    session,
+                    db_id,
+                    season,
+                    "pts",
+                    min_gp=_sim_roster_min_gp(),
+                    max_players=_sim_roster_cap(),
+                )
                 for _, name, _ in top_players:
                     if normalize_player_name(name) in unavailable_names:
                         logger.info("[Late Scratch Guard] Skipping %s - Ruled Out", name)
@@ -1781,7 +1816,7 @@ def _run_refresh_job(
         data = _run_full_pipeline(
             stat,
             target_date,
-            4,
+            None,
             n_sims,
             use_odds_cache=not fresh_odds,
         )
